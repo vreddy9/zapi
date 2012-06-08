@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "A simple zuora api connector"
   s.authors     = ["Maks Demin"]
   s.email       = 'maksim.demin@zuora.com'
-  s.files       =  Dir['lib/*']
+  s.files       =  Dir['lib/*']+Dir['lib/models/*']
   s.homepage    =
     'http://rubygems.org/gems/hola'
 end
