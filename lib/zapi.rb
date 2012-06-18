@@ -5,7 +5,6 @@ module Zapi
 	autoload :Session, 		 'zapi/session'
 	autoload :Models, 		 'zapi/models'
 	autoload :QueryResponse, 'zapi/query_response'
-
 end
 
 	

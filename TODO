@@ -1,4 +1,5 @@
 TODO
-	[]extend base to query objects
-	[]make where take symbols and values
+	[x]extend base to query objects
+	[x]make where take symbols and values
 	[]make query response map things to an object
+	[]make default values 

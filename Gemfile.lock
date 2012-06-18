@@ -32,5 +32,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  builder
   savon (= 0.9.9)
   zapi!

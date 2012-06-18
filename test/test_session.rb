@@ -8,8 +8,8 @@ class ZapiTest < Test::Unit::TestCase
 		assert_not_equal(actual, nil)
 	end
 
-	def test_query_should_return_response
-		actually = $zapi.query('SELECT Id, Name FROM Account')
-		assert_not_equal(actually,nil)
+	def test_add_namespace
+		actually = $zapi.add_namespace({key: 'value'})
+		assert_equal(actually["ins1:key"], 'value')
 	end
 end
