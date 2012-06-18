@@ -78,7 +78,11 @@ module Zapi
 		end
 		#make the string representing the query
 		def make_query_string
-			fields = self.class.fields - self.class.non_query_fields
+			if(self.class.non_query_fields != nil)
+				fields = self.class.fields - self.class.non_query_fields
+			else
+				fields = self.class.fields
+			end
 			qstr = 'SELECT ' + fields.join(', ') + ' FROM ' + self.class.name
 		end
 		#underscore the fields in the way they are returned by savon

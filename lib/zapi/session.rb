@@ -111,6 +111,10 @@ module Zapi
       	def account
       			Zapi::Models::Account.new
       	end
+        #create a contact model to make and query stuff
+        def contact
+            Zapi::Models::Contact.new
+        end
       	#create an invoice model to make and query stuff
       	def invoice
       			Zapi::Models::Invoice.new
@@ -123,6 +127,6 @@ module Zapi
         def payment
             Zapi::Models::Payment.new
         end
-
+        #
 	  end	 
 end

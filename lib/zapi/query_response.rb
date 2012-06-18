@@ -22,6 +22,9 @@ module Zapi
 				if type == 'Account'
 					obj = Zapi::Models::Account.new
 					obj.set_fields(record)
+				elsif type == 'Contact'
+					obj = Zapi::Models::Contact.new
+					obj.set_fields(record)
 				elsif type == 'Invoice'
 					obj = Zapi::Models::Invoice.new
 					obj.set_fields(record)

@@ -19,6 +19,7 @@ module Zapi
 		#make these set from a config file
 		self.custom_fields = %w(CustomField__c)
 
+
 		def initialize
 			super
 			#set the minimum required values

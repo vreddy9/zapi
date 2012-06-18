@@ -14,7 +14,8 @@ module Zapi
 			Comments CreatedBy CreatedById CreatedDate DueDate InvoiceNumber LastEmailSentDate
 			PaymentAmount PostedBy PostedDate RefundAmount Source SourceId TaxAmount TaxExemptAmount
 			UpdatedBy UpdatedDate)
-		
+
+				
 		#TODO
 		#make these set from a config file
 		#self.custom_fields = %w(CustomField__c)
