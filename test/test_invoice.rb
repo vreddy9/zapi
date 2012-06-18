@@ -6,5 +6,4 @@ class ZapiTest < Test::Unit::TestCase
 	def test_create_query_update_delete_invoice
 
 	end
-
 end

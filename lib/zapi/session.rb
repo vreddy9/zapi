@@ -119,5 +119,10 @@ module Zapi
         def invoice_item
             Zapi::Models::InvoiceItem.new
         end
+        #create a payment model
+        def payment
+            Zapi::Models::Payment.new
+        end
+
 	  end	 
 end

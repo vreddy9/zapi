@@ -39,5 +39,4 @@ class ZapiTest < Test::Unit::TestCase
 		actually = base.class.values["Name"]
 		assert_equal(actually, 'testing')
 	end
-
 end

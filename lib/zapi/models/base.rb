@@ -1,7 +1,7 @@
 module Zapi
 	class Models::Base
 		class << self
-      		attr_accessor :fields, :name, :default_fields, :custom_fields, :read_only_fields, :values, :symbols
+      		attr_accessor :fields, :name, :default_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols
     	end
     	#initilize the base
 		def initialize
@@ -78,7 +78,8 @@ module Zapi
 		end
 		#make the string representing the query
 		def make_query_string
-			qstr = 'SELECT ' + self.class.fields.join(', ') + ' FROM ' + self.class.name
+			fields = self.class.fields - self.class.non_query_fields
+			qstr = 'SELECT ' + fields.join(', ') + ' FROM ' + self.class.name
 		end
 		#underscore the fields in the way they are returned by savon
 		def underscore(string) 

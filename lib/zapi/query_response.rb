@@ -18,7 +18,6 @@ module Zapi
 			records.each do |record|
 				#gets the object which is after the @xsi:type
 				type = record[:"@xsi:type"].split(':').last
-				puts 'type is ' + type
 				#make the correct model and set the fields
 				if type == 'Account'
 					obj = Zapi::Models::Account.new
@@ -28,6 +27,9 @@ module Zapi
 					obj.set_fields(record)
 				elsif type == 'InvoiceItem'
 					obj = Zapi::Models::InvoiceItem.new
+					obj.set_fields(record)
+				elsif type == 'Payment'
+					obj = Zapi::Models::Payment.new
 					obj.set_fields(record)
 				end
 				#add the obj to the array

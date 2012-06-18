@@ -14,6 +14,7 @@ module Zapi
 			GatewayResponse GatewayResponseCode GatewayState MarkedForSubmissionOn PaymentNumber RefundAmount 
 			SecondPaymentReferenceId SettledOn SubmittedOn UpdatedById UpdatedDate)
 		
+		self.non_query_fields = %w(AppliedInvoiceAmount InvoiceId InvoiceNumber)
 		#TODO
 		#make these set from a config file
 		#self.custom_fields = %w(CustomField__c)
