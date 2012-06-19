@@ -21,7 +21,7 @@ Must specify the WSDL field name.
 
 	accountName = specificAccount.values["Name"]
 
-###Set fields
+###Set fields and Update
 
 Separate by comma if setting more than one, use ruby case i.e ThisName is this_name.
 
