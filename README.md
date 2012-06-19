@@ -11,11 +11,11 @@ set credentials when makeing a new session, you can also specify the endpoint af
 	accs = sesh.account.all
 
 ###get a specific account
-	query_result = sesh.account.where(id: 'asd123') \n
+	query_result = sesh.account.where(id: 'asd123') 
 	specificAccount = query_result[0]
 
 ###get a value
-accountName = specificAccount.values[:name]
+	accountName = specificAccount.values[:name]
 
 ###set fields separate by comma if setting more than one
 	specificAccount.set_fields(name: 'hi')
