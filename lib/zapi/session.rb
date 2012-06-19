@@ -44,17 +44,11 @@ module Zapi
       			qr.objects
       	end
       	#create an object in zuora
-    		def create(type, map)
+    		def create(xml)
     			  check_login
-       			    map = add_namespace(map)
        			    response = @client.request :create do
            		      soap.header = { "SessionHeader" => { "session" => "#{self.session}" }}
-           		      soap.body = {
-
-    				            zObjects: map,
-    				            attributes!: {"ins0:zObjects" => { "xsi:type" => "ins1:#{type}"}}
-
-             		    }
+           		      soap.body = xml
           	end
           	if response.success?
     		   		    return response.to_hash[:create_response][:result][:id]
@@ -63,12 +57,12 @@ module Zapi
     	   		end
         end
         #update an object in zuora
-        def update(body)
+        def update(xml)
          		check_login
          		#map = add_namespace(map)
        			response = @client.request :update do
            	    soap.header = { "SessionHeader" => { "session" => "#{self.session}" }}
-           		  soap.body = body
+           		  soap.body = xml
           	end
          		if response.success?
     		     		return response.to_hash

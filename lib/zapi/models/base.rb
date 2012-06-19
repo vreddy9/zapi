@@ -42,7 +42,8 @@ module Zapi
 		end
 		#call the sessions create method
 		def create
-			$session.create(self.name, symbol_to_string)
+			#$session.create(self.name, symbol_to_string)
+			$session.create(to_xml)
 		end
 		#call the sessions update method
 		def update
@@ -111,8 +112,10 @@ module Zapi
 			#build the xml
 			temp = symbol_to_string
 			xml = builder.tag!("ins0:zObjects", "xsi:type" => "#{ns}:#{self.name}") {
-				#set the id first
-				builder.tag!("#{ns}:Id", self.values[:id])
+				if( self.values[:id] != nil )
+					#set the id first if its not set
+					builder.tag!("#{ns}:Id", self.values[:id])
+				end
 				#set the values if they are not read only
 				temp.each do |k,v|
 					#check to see if its id or read only
