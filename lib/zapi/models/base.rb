@@ -1,14 +1,13 @@
 module Zapi
 	class Models::Base
-		#TODO
-		#make it easier to access the individual fields, going acc.class.values["Id"] is ugly
+
       	attr_accessor :fields, :name, :default_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols
-    	#initilize the base
+    	#initialize the base
 		def initialize
 			self.symbols = Hash.new
 			self.values = Hash.new
 		end
-		#setup the fields with the set values
+		#setup the symbols with the fields from the model
 		def setup_fields
 			self.fields.each do |field|
 				self.symbols[field] = underscore(field).to_sym
@@ -47,6 +46,7 @@ module Zapi
 		end
 		#call the sessions update method
 		def update
+			#need to set the id first
 			$session.update(to_xml)
 		end
 		#call the sessions delete method
@@ -55,7 +55,6 @@ module Zapi
 		end
 		#set the fields on the object
 		def set_fields(map)
-			#puts map
 			temp = Hash.new
 			map.each do |k,v|
 				#find the string the goes with the symbol

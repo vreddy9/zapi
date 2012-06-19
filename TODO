@@ -1,11 +1,15 @@
 TODO:
+	[]make each field an attr accesor? / figure out non database ActiveModel backed models ( is it worth it bc zuora is doing the validation, i guess it makes sense to do it before sending and not wasting a soap call, but what if something in the WSDL changes, HOW OFTEN DOES THAT HAPPEN!? i think it makes sense to validate before sending )
+	[]subscribe
+	[]amend
+	[]finish tests 
+	[]figure out why savon setup breaks with rake and setting the log
+
 	[x]extend base to query objects
 	[x]make where take symbols and values
 	[x]make query response map things to an object
 	[x]make default values
 	[x]contact model and tests 6/18
 	[x]subscription model ( query and update ) 6/18
-	[]subscribe
-	[]amend
-	[]take the username and password out of the config file and have it be set
-	[]finish tests 
+	[x]take the username and password out of the config file and have it be set 6/18
+	

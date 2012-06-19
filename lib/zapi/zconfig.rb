@@ -4,7 +4,7 @@ module Zapi
 		def initialize(config={})
 			self.user_name = config[:username]
 			self.password = config[:password]
-			self.endpoint = 'https://apisandbox.zuora.com'
+			self.endpoint = config[:endpoint] || 'https://apisandbox.zuora.com'
 		end
 	end
 end
