@@ -6,8 +6,8 @@ module Zapi
         #getters and setters
         attr_accessor :zconfig, :session
 		    #initilize the savon client and login
-		    def initialize
-            self.zconfig = Zapi::Zconfig.new
+		    def initialize(config)
+            self.zconfig = Zapi::Zconfig.new(config)
 			      savon_setup
             $session = self	
 		    end
