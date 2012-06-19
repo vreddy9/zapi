@@ -34,6 +34,9 @@ module Zapi
 				elsif type == 'Payment'
 					obj = Zapi::Models::Payment.new
 					obj.set_fields(record)
+				elsif type == 'Subscription'
+					obj = Zapi::Models::Subscription.new
+					obj.set_fields(record)
 				end
 				#add the obj to the array
 				self.objects << obj

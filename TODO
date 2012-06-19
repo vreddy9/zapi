@@ -1,5 +1,11 @@
-TODO
+TODO:
 	[x]extend base to query objects
 	[x]make where take symbols and values
-	[]make query response map things to an object
-	[]make default values 
+	[x]make query response map things to an object
+	[x]make default values
+	[x]contact model and tests 6/18
+	[x]subscription model ( query and update ) 6/18
+	[]subscribe
+	[]amend
+	[]take the username and password out of the config file and have it be set
+	[]finish tests 

@@ -5,7 +5,10 @@
 
 ## Usage
 	* sesh = Zapi::Session.new, creates a new session
-	* inv = Zapi::Models::Invoice.new(sesh), make an invoice model to manipulate invoices
-	* invoice = inv.all, gets all the invoices
-	* invoice = inv.where("InvoiceNumber = 'INV00000016'"), gets invoice with the specified invoice number
+	* inv = sesh.invoice
+	* invoices = inv.all
+	* specificInvoice = inv.where(id: 'asd123')
+	* specificInvoice.set_fields(notes: 'hi')
+	* update_res = specificInvoice.update
+
 

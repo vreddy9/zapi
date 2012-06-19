@@ -1,15 +1,17 @@
 module Zapi
 	class Models::Base
-		class << self
-      		attr_accessor :fields, :name, :default_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols
-    	end
+		#TODO
+		#make it easier to access the individual fields, going acc.class.values["Id"] is ugly
+      	attr_accessor :fields, :name, :default_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols
     	#initilize the base
 		def initialize
-			self.class.symbols = Hash.new
-			self.class.values = Hash.new
-			#make the symbol map
-			self.class.fields.each do |field|
-				self.class.symbols[field] = underscore(field).to_sym
+			self.symbols = Hash.new
+			self.values = Hash.new
+		end
+		#setup the fields with the set values
+		def setup_fields
+			self.fields.each do |field|
+				self.symbols[field] = underscore(field).to_sym
 			end
 		end
 		#get all the objects
@@ -41,7 +43,7 @@ module Zapi
 		end
 		#call the sessions create method
 		def create
-			$session.create(self.class.name, self.class.values)
+			$session.create(self.name, self.values)
 		end
 		#call the sessions update method
 		def update
@@ -49,11 +51,11 @@ module Zapi
 		end
 		#call the sessions delete method
 		def delete
-			$session.delete(self.class.values["Id"], self.class.name)
+			$session.delete(self.values["Id"], self.name)
 		end
 		#set the fields on the object
 		def set_fields(map)
-			puts map
+			#puts map
 			temp = Hash.new
 			map.each do |k,v|
 				#find the string the goes with the symbol
@@ -64,12 +66,12 @@ module Zapi
 			end
 			#set the values
 			temp.each do |k,v|
-				self.class.values[k] = v
+				self.values[k] = v
 			end
 		end
 		#find the symbol in the symbols and return the string
 		def find_field(value)
-			self.class.symbols.each do |k, v|
+			self.symbols.each do |k, v|
 				return k if(value == v)
 			end
 			#TODO
@@ -78,12 +80,12 @@ module Zapi
 		end
 		#make the string representing the query
 		def make_query_string
-			if(self.class.non_query_fields != nil)
-				fields = self.class.fields - self.class.non_query_fields
+			if(self.non_query_fields != nil)
+				fields = self.fields - self.non_query_fields
 			else
-				fields = self.class.fields
+				fields = self.fields
 			end
-			qstr = 'SELECT ' + fields.join(', ') + ' FROM ' + self.class.name
+			qstr = 'SELECT ' + fields.join(', ') + ' FROM ' + self.name
 		end
 		#underscore the fields in the way they are returned by savon
 		def underscore(string) 
@@ -91,7 +93,7 @@ module Zapi
 		end
 		#check to see if a field is read only
 		def is_read_only(val)
-			self.class.read_only_fields.each do |f|
+			self.read_only_fields.each do |f|
 				if(f == val)
 					return true
 				end
@@ -104,11 +106,11 @@ module Zapi
 			ns = 'ins1'
 			builder = Builder::XmlMarkup.new
 			#build the xml
-			xml = builder.tag!("ins0:zObjects", "xsi:type" => "#{ns}:#{self.class.name}") {
+			xml = builder.tag!("ins0:zObjects", "xsi:type" => "#{ns}:#{self.name}") {
 				#set the id first
-				builder.tag!("#{ns}:Id", self.class.values['Id'])
+				builder.tag!("#{ns}:Id", self.values['Id'])
 				#set the values if they are not read only
-				self.class.values.each do |k,v|
+				self.values.each do |k,v|
 					#check to see if its id or read only
 					if(k != 'Id' && !is_read_only(k))
 						builder.tag!("#{ns}:#{k}",v)

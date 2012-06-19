@@ -92,6 +92,10 @@ module Zapi
                 return false
             end
         end
+        #subscribe call
+        def subscribe(account, contact, payment_method, subscription, subscription_data)
+
+        end
       	#add the ins1: before the keys and make them strings
       	def add_namespace(map)
       			temp = Hash.new
@@ -107,15 +111,15 @@ module Zapi
       				  login
       			end
       		end
-      	#create an account model to make and query stuff
+      	#create an account model
       	def account
       			Zapi::Models::Account.new
       	end
-        #create a contact model to make and query stuff
+        #create a contact model
         def contact
             Zapi::Models::Contact.new
         end
-      	#create an invoice model to make and query stuff
+      	#create an invoice model
       	def invoice
       			Zapi::Models::Invoice.new
       	end
@@ -126,6 +130,10 @@ module Zapi
         #create a payment model
         def payment
             Zapi::Models::Payment.new
+        end
+        #create a subscription model
+        def subscription
+            Zapi::Models::Subscription.new
         end
         #
 	  end	 

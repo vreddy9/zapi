@@ -6,6 +6,7 @@ module Zapi
 		autoload :Account, 'zapi/models/account'
 		autoload :Contact, 'zapi/models/contact'
 		autoload :Payment, 'zapi/models/payment'
+		autoload :Subscription, 'zapi/models/subscription'
 
 	end
 end
