@@ -1,10 +1,10 @@
 # Zuora Api Wrapper
 
 ## Config
-fill in credentials in the config.rb file
+set credentials when makeing a new session, you can also specify the endpoint after the password ( you will need to change the endpoint in the wsdl and prod is untested )
 
 ## Usage
-#make a new session
+###make a new session
 sesh = Zapi::Session.new(username: '', password: '')
 
 ###get all acoounts
