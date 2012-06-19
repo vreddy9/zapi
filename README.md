@@ -7,27 +7,27 @@ Set credentials when making a new session, you can also specify the endpoint aft
 ###make a new session
 	sesh = Zapi::Session.new(username: '', password: '')
 
-###get all acoounts
+###Get all acoounts
 	accs = sesh.account.all
 
-###get a specific account
+###Get a specific account
 	query_result = sesh.account.where(id: 'asd123') 
 	specificAccount = query_result[0]
 
-###get a value
+###Get a value
 
-Must specify the WSDL name.
+Must specify the WSDL field name.
 
 	accountName = specificAccount.values["Name"]
 
-###set fields
+###Set fields
 
 Separate by comma if setting more than one, use ruby case i.e ThisName is this_name.
 
 	specificAccount.set_fields(name: 'hi', currency: 'USD')
 	update_res = specificAccount.update
 
-###make a new account
+###Make a new account
 
 Some values are set by default.
 
