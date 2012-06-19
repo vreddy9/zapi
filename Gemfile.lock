@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zapi (0.0.2)
+    zapi (0.0.3)
 
 GEM
   remote: http://rubygems.org/

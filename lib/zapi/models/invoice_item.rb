@@ -2,6 +2,7 @@ module Zapi
 	class Models::InvoiceItem < Models::Base
 
 		def initialize
+			super
 			#the name of the Zuora Object
 			self.name = "InvoiceItem"
 

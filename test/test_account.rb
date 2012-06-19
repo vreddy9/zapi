@@ -3,6 +3,11 @@ require 'helper'
 class ZapiTest < Test::Unit::TestCase
 	include ZapiTestHelper
 
+	def test_new_account
+		actually = $zapi.account
+		assert_not_equal(actually, nil)
+	end
+
 	def test_create_query_update_delete_account
 		#create an account
 		actually = $zapi.account.create

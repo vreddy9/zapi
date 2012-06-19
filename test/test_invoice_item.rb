@@ -3,9 +3,9 @@ require 'helper'
 class ZapiTest < Test::Unit::TestCase
 	include ZapiTestHelper
 
-	def test_new_invoice
-		#create an invoice model
-		actually = $zapi.invoice
+	def test_new_invoice_item
+		#create an invoice item model
+		actually = $zapi.invoice_item
 		assert_not_equal(actually, nil)
 	end
 end
