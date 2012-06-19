@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zapi (0.0.1)
+    zapi (0.0.2)
 
 GEM
   remote: http://rubygems.org/
@@ -12,20 +12,21 @@ GEM
     builder (3.0.0)
     gyoku (0.4.5)
       builder (>= 2.1.2)
-    httpi (0.9.7)
+    httpi (1.0.0)
       rack
-    nokogiri (1.5.3)
+    nokogiri (1.5.4)
     nori (1.1.0)
     rack (1.4.1)
-    savon (0.9.9)
-      akami (~> 1.0)
+    savon (1.0.0)
+      akami (~> 1.1)
       builder (>= 2.1.2)
       gyoku (>= 0.4.0)
-      httpi (~> 0.9)
+      httpi (~> 1.0)
       nokogiri (>= 1.4.0)
       nori (~> 1.1)
-      wasabi (~> 2.1)
-    wasabi (2.2.0)
+      wasabi (~> 2.2)
+    wasabi (2.4.1)
+      httpi (~> 1.0)
       nokogiri (>= 1.4.0)
 
 PLATFORMS
@@ -33,5 +34,5 @@ PLATFORMS
 
 DEPENDENCIES
   builder
-  savon (= 0.9.9)
+  savon
   zapi!
