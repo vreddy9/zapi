@@ -42,7 +42,7 @@ module Zapi
 		end
 		#call the sessions create method
 		def create
-			$session.create(self.name, self.values)
+			$session.create(self.name, symbol_to_string)
 		end
 		#call the sessions update method
 		def update
@@ -51,20 +51,12 @@ module Zapi
 		end
 		#call the sessions delete method
 		def delete
-			$session.delete(self.values["Id"], self.name)
+			$session.delete(self.values[:id], self.name)
 		end
 		#set the fields on the object
 		def set_fields(map)
 			temp = Hash.new
 			map.each do |k,v|
-				#find the string the goes with the symbol
-				k = find_field(k)
-				if(k != '')
-					temp[k]= v
-				end
-			end
-			#set the values
-			temp.each do |k,v|
 				self.values[k] = v
 			end
 		end
@@ -77,6 +69,18 @@ module Zapi
 			#ADD ERROR HANDILING IF THERE IS NO SYMBOL FOUND
 			return ''
 		end
+		#string to symbol
+		def symbol_to_string
+			temp = Hash.new
+			self.values.each do |k,v|
+				#find the string the goes with the symbol
+				k = find_field(k)
+				if(k != '')
+					temp[k]= v
+				end
+			end
+			temp
+		end 
 		#make the string representing the query
 		def make_query_string
 			if(self.non_query_fields != nil)
@@ -105,13 +109,14 @@ module Zapi
 			ns = 'ins1'
 			builder = Builder::XmlMarkup.new
 			#build the xml
+			temp = symbol_to_string
 			xml = builder.tag!("ins0:zObjects", "xsi:type" => "#{ns}:#{self.name}") {
 				#set the id first
-				builder.tag!("#{ns}:Id", self.values['Id'])
+				builder.tag!("#{ns}:Id", self.values[:id])
 				#set the values if they are not read only
-				self.values.each do |k,v|
+				temp.each do |k,v|
 					#check to see if its id or read only
-					if(k != 'Id' && !is_read_only(k))
+					if(k != ':id' && !is_read_only(k))
 						builder.tag!("#{ns}:#{k}",v)
 					end
 				end

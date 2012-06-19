@@ -36,7 +36,7 @@ class ZapiTest < Test::Unit::TestCase
 	def test_set_fields
 		base = Zapi::Models::Account.new
 		base.set_fields(name: 'testing')
-		actually = base.values["Name"]
+		actually = base.values[:name]
 		assert_equal(actually, 'testing')
 	end
 end

@@ -9,7 +9,7 @@ class ZapiTest < Test::Unit::TestCase
 	def test_query_subscription
 		query_res = $zapi.subscription.where(id: $subscription_id)
 		sub = query_res[0]
-		assert_equal(sub.values["Id"], $subscription_id)
+		assert_equal(sub.values[:id], $subscription_id)
 	end
 
 	def test_update_subscription

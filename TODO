@@ -1,5 +1,6 @@
 TODO:
 	[]make each field an attr accesor? / figure out non database ActiveModel backed models ( is it worth it bc zuora is doing the validation, i guess it makes sense to do it before sending and not wasting a soap call, but what if something in the WSDL changes, HOW OFTEN DOES THAT HAPPEN!? i think it makes sense to validate before sending )
+	[]make all the field name be ruby symbols
 	[]subscribe
 	[]amend
 	[]finish tests 

@@ -15,11 +15,9 @@ Set credentials when making a new session, you can also specify the endpoint aft
 	query_result = sesh.account.where(id: 'asd123') 
 	specificAccount = query_result[0]
 
-###Get a value
+###Get a specific value from a field
 
-Must specify the WSDL field name.
-
-	accountName = specificAccount.values["Name"]
+	accountName = specificAccount.values[:name]
 
 ###Set fields and Update
 
