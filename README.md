@@ -21,7 +21,7 @@ Set credentials when making a new session, you can also specify the endpoint aft
 
 ###Set fields and Update
 
-Separate by comma if setting more than one, use ruby case i.e ThisName in the WSDL is this name. "CustomField__c" ( WSDL ) = ":custom_field__c" ( symbol )
+Separate by comma if setting more than one, use underscore case i.e ThisName in the WSDL is 'this_name'.
 
 	specificAccount.set_fields( name: 'hi', currency: 'USD' )
 	update_res = specificAccount.update
