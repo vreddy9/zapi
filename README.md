@@ -14,14 +14,14 @@ set credentials when makeing a new session, you can also specify the endpoint af
 	query_result = sesh.account.where(id: 'asd123') 
 	specificAccount = query_result[0]
 
-###get a value
-	accountName = specificAccount.values[:name]
+###get a value, must specify the WSDL name
+	accountName = specificAccount.values["Name"]
 
-###set fields separate by comma if setting more than one
-	specificAccount.set_fields(name: 'hi')
+###set fields separate by comma if setting more than one, use ruby case i.e ThisName is this_name
+	specificAccount.set_fields(name: 'hi', currency: 'USD')
 	update_res = specificAccount.update
 
-###make a new account
+###make a new account, some values are set by default
 	acc = sesh.account
 	acc.set_fields(name: "test account")
 	acc.create
