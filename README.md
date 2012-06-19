@@ -15,16 +15,22 @@ Set credentials when making a new session, you can also specify the endpoint aft
 	specificAccount = query_result[0]
 
 ###get a value
-Must specify the WSDL name
+
+Must specify the WSDL name.
+
 	accountName = specificAccount.values["Name"]
 
 ###set fields
-Separate by comma if setting more than one, use ruby case i.e ThisName is this_name
+
+Separate by comma if setting more than one, use ruby case i.e ThisName is this_name.
+
 	specificAccount.set_fields(name: 'hi', currency: 'USD')
 	update_res = specificAccount.update
 
 ###make a new account
-Some values are set by default
+
+Some values are set by default.
+
 	acc = sesh.account
 	acc.set_fields(name: "test account")
 	acc.create
