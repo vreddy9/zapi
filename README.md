@@ -9,12 +9,14 @@ Set credentials when making a new session, you can also specify the endpoint aft
 ## Usage
 
 ###Make a new session before doing anything
+
 	sesh = Zapi::Session.new(username: '', password: '')
 
-###Get all acoounts
+###Get all accounts, return an array of accounts
 	accs = sesh.account.all
 
-###Get a specific account
+###Get a specific account, will always return the object in an array even if its one
+
 	query_result = sesh.account.where(id: 'asd123') 
 	specificAccount = query_result[0]
 
@@ -24,7 +26,7 @@ Set credentials when making a new session, you can also specify the endpoint aft
 
 ###Set fields and Update
 
-Separate by comma if setting more than one, use underscore case i.e 'ThisName' in the WSDL is 'this_name'.
+Separate by comma if setting more than one, use underscore case i.e 'ThisName' in the WSDL is ':this_name'.
 
 	specificAccount.set_fields( name: 'hi', currency: 'USD' )
 	update_res = specificAccount.update
