@@ -179,5 +179,9 @@ module Zapi
         def payment_method
             Zapi::Models::PaymentMethod.new
         end
+        #create a product model
+        def product
+            Zapi::Models::Product.new
+        end
 	  end	 
 end

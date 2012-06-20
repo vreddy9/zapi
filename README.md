@@ -1,7 +1,7 @@
 # Zuora Api Wrapper
 
 ## Install
-Install the latest version, many updates to come
+Make sure you install the latest version, many updates to are going to come out
 
 	gem install zapi
 

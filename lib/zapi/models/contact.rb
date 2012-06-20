@@ -1,5 +1,5 @@
 module Zapi
-	#represents a zuora account
+	#represents a zuora contact
 	class Models::Contact < Models::Base
 		def initialize
 			super

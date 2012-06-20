@@ -8,5 +8,6 @@ module Zapi
 		autoload :Payment, 'zapi/models/payment'
 		autoload :Subscription, 'zapi/models/subscription'
 		autoload :PaymentMethod, 'zapi/models/payment_method'
+		autoload :Product, 'zapi/models/product'
 	end
 end
