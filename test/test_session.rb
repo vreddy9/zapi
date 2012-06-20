@@ -8,8 +8,8 @@ class ZapiTest < Test::Unit::TestCase
 		assert_not_equal(actual, nil)
 	end
 
-	def test_add_namespace
-		actually = $zapi.add_namespace({key: 'value'})
-		assert_equal(actually["ins1:key"], 'value')
+	def test_subscribe
+		res = $zapi.subscribe_xml($zapi.account,$zapi.contact, $zapi.subscription, $zapi.payment_method)
+		assert_not_equal(res, nil)
 	end
 end

@@ -1,11 +1,13 @@
 module Zapi
 	class Models::Base
 
-      	attr_accessor :fields, :name, :default_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols
+      	attr_accessor :fields, :name, :updated_fields, :queried_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols
     	#initialize the base
 		def initialize
 			self.symbols = Hash.new
 			self.values = Hash.new
+			self.updated_fields = Hash.new
+			self.queried_fields = Hash.new
 		end
 		#setup the symbols with the fields from the model
 		def setup_fields
@@ -42,13 +44,12 @@ module Zapi
 		end
 		#call the sessions create method
 		def create
-			#$session.create(self.name, symbol_to_string)
-			$session.create(to_xml)
+			$session.create(to_xml('create'))
 		end
 		#call the sessions update method
 		def update
 			#need to set the id first
-			$session.update(to_xml)
+			$session.update(to_xml('update'))
 		end
 		#call the sessions delete method
 		def delete
@@ -56,6 +57,16 @@ module Zapi
 		end
 		#set the fields on the object
 		def set_fields(map)
+			map.each do |k,v|
+				self.updated_fields[k] = v
+			end
+			#add the updated fields to the values and overwrite any existing ones
+			self.updated_fields.each do |k, v|
+				values[k] = v
+			end
+		end
+		#set the queried values on the object
+		def set_fields_query(map)
 			temp = Hash.new
 			map.each do |k,v|
 				self.values[k] = v
@@ -71,9 +82,9 @@ module Zapi
 			return ''
 		end
 		#string to symbol
-		def symbol_to_string
+		def symbol_to_string(hash)
 			temp = Hash.new
-			self.values.each do |k,v|
+			hash.each do |k,v|
 				#find the string the goes with the symbol
 				k = find_field(k)
 				if(k != '')
@@ -105,16 +116,20 @@ module Zapi
 			false
 		end
 		#build the xml for the object
-		def to_xml
+		def to_xml(command)
 			#the namespace
 			ns = 'ins1'
-			builder = Builder::XmlMarkup.new
+			builder = Builder::XmlMarkup.new		
 			#build the xml
-			temp = symbol_to_string
 			xml = builder.tag!("ins0:zObjects", "xsi:type" => "#{ns}:#{self.name}") {
-				if( self.values[:id] != nil )
-					#set the id first if its not set
-					builder.tag!("#{ns}:Id", self.values[:id])
+				#if its update set the id first
+				if (command == 'update')
+					if(self.values[:id] != nil)
+						temp = symbol_to_string(self.updated_fields)
+						builder.tag!("#{ns}:Id", self.values[:id])
+					end
+				elsif (command == 'create')
+					temp = symbol_to_string(self.values)
 				end
 				#set the values if they are not read only
 				temp.each do |k,v|
@@ -122,7 +137,7 @@ module Zapi
 					if(k != ':id' && !is_read_only(k))
 						builder.tag!("#{ns}:#{k}",v)
 					end
-				end
+				end				
 			}
 			xml
 		end

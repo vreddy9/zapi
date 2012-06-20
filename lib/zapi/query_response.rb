@@ -20,24 +20,21 @@ module Zapi
 				type = record[:"@xsi:type"].split(':').last
 				#make the correct model and set the fields
 				if type == 'Account'
-					obj = Zapi::Models::Account.new
-					obj.set_fields(record)
+					obj = Zapi::Models::Account.new					
 				elsif type == 'Contact'
 					obj = Zapi::Models::Contact.new
-					obj.set_fields(record)
 				elsif type == 'Invoice'
 					obj = Zapi::Models::Invoice.new
-					obj.set_fields(record)
 				elsif type == 'InvoiceItem'
 					obj = Zapi::Models::InvoiceItem.new
-					obj.set_fields(record)
 				elsif type == 'Payment'
 					obj = Zapi::Models::Payment.new
-					obj.set_fields(record)
 				elsif type == 'Subscription'
 					obj = Zapi::Models::Subscription.new
-					obj.set_fields(record)
+				elsif type == 'PaymentMethod'
+					obj = Zapi::Models::PaymentMethod.new
 				end
+				obj.set_fields_query(record)
 				#add the obj to the array
 				self.objects << obj
 			end

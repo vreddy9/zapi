@@ -59,7 +59,6 @@ module Zapi
         #update an object in zuora
         def update(xml)
          		check_login
-         		#map = add_namespace(map)
        			response = @client.request :update do
            	    soap.header = { "SessionHeader" => { "session" => "#{self.session}" }}
            		  soap.body = xml
@@ -86,25 +85,72 @@ module Zapi
                 return false
             end
         end
+        #TODO
+        #TAKE IN A HASH IF SOME PARAMS ARE NIL DO CERTAIN THINGS 
         #subscribe call
-        def subscribe(account, contact, payment_method, subscription, subscription_data)
+        def subscribe_xml(account, contact, subscription, payment_method)
+            builder = Builder::XmlMarkup.new
+            #build the XML
+            xml = builder.tag!("ins0:subscribe") {
+                builder.tag!("ins0:subscribes") {
+                    #account can be just an id to subscribe to existing
+                    builder.tag!("ins0:Account", "xsi:type" => "ins1:Account") {
+                        #put all the account values in the call
+                        account.symbol_to_string(account.values).each do |k,v|
+                            builder.tag!("ins1:#{k}",v)
+                        end
+                    }
+                    #payment method
+                    builder.tag!("ins0:PaymentMethod", "xsi:type" => "ins1:PaymentMethod") {
+                        #put all the paymnet method values in the call
+                        payment_method.symbol_to_string(payment_method.values).each do |k,v|
+                            builder.tag!("ins1:#{k}",v)
+                        end
+                    }
+                    #bill to contact
+                    builder.tag!("ins0:BillToContact", "xsi:type" => "ins1:BillToContact") {
+                        #put all the contact values in the call
+                        contact.symbol_to_string(contact.values).each do |k,v|
+                            builder.tag!("ins1:#{k}",v)
+                        end
+                    }
+                    #preview options
+                    builder.tag!("ins0:PreviewOptions") {
+                        builder.tag!("ins1:EnablePreviewMode", false)
+                        builder.tag!("ins1:NumberOfPeriods", 1)
+                    }
+                    #TODO
+                    #ADD SUPPORT FOR SOLD TO
+                    #sold to contact, if only one BillTo defaults to SoldTo
 
+                    #subscribe options                    
+                    builder.tag!("ins0:SubscribeOptions") {
+                        builder.tag!("ins1:GenerateInvoice", false)
+                        builder.tag!("ins1:ProcessPayments", false)
+                    }
+                    #subscription data
+                    builder.tag!("ins0:SubscriptionData") {
+                        #subscription
+                        builder.tag!("ins0:Subscription", "xsi:type" => "ins1:Subscription"){
+                            #put in all the subscription values in the call
+                            subscription.symbol_to_string(subscription.values).each do |k,v|
+                                builder.tag!("ins1:#{k}",v)
+                            end
+                        }
+                        #rate plan data
+                        builder.tag!("ins0:RatePlanData") {
+
+                        }
+                    }
+                }
+            }
         end
-      	#add the ins1: before the keys and make them strings
-      	def add_namespace(map)
-      			temp = Hash.new
-      			map.each do |k, v|
-      				  k = "ins1:#{k}".to_s
-      				  temp[k] = v
-      			end
-      			temp
-      	end
       	#check to see if the session is valid
         def check_login
       			if self.session == nil
       				  login
       			end
-      		end
+      	end
       	#create an account model
       	def account
       			Zapi::Models::Account.new
@@ -129,6 +175,9 @@ module Zapi
         def subscription
             Zapi::Models::Subscription.new
         end
-        #
+        #create a payment method model
+        def payment_method
+            Zapi::Models::PaymentMethod.new
+        end
 	  end	 
 end

@@ -23,7 +23,7 @@ class ZapiTest < Test::Unit::TestCase
 
 	def test_to_xml
 		base = Zapi::Models::Account.new
-		actually = base.to_xml
+		actually = base.to_xml('create')
 		assert_equal(actually, "<ins0:zObjects xsi:type=\"ins1:Account\"><ins1:Name>test account</ins1:Name><ins1:PaymentTerm>Net 30</ins1:PaymentTerm><ins1:Currency>USD</ins1:Currency><ins1:BillCycleDay>1</ins1:BillCycleDay><ins1:Batch>Batch1</ins1:Batch><ins1:Status>Draft</ins1:Status></ins0:zObjects>")
 	end
 

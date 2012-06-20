@@ -26,7 +26,7 @@ module Zapi
 			setup_fields
 
 			#set the minimum required values
-			set_fields(
+			set_fields_query(
 
 				name: 'test account',
 				payment_term: 'Net 30',
@@ -36,8 +36,6 @@ module Zapi
 				status: 'Draft'
 
 			)
-			
-
 		end		
 	end
 end

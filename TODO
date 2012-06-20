@@ -2,10 +2,9 @@ TODO:
 	session.rb:
 		[]subscribe
 		[]amend
-		[]update, make it only send new values, i.e ones that were set, not the ones that were queried
+
 	Overall:
-		[]more models	
-		[]finish tests
+		[]more models
 		[]figure out why savon setup breaks with rake and setting the log
 		[]test / make it easy to configure with prod
 		[]move custom fields to a file
@@ -26,4 +25,5 @@ DONE:
 	[x]subscription model ( query and update ) 6/18
 	[x]take the username and password out of the config file and have it be set 6/18
 	[x]make all the field name be ruby symbols 6/18
-	[x]session
+	[x]session model
+	[x]update, make it only send new values, i.e ones that were set, not the ones that were queried 6/19

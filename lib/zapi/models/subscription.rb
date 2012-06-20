@@ -29,9 +29,10 @@ module Zapi
 
 			setup_fields
 			#set the minimum required values
-			self.set_fields(
+			self.set_fields_query(
 
 				term_type: 'EVERGREEN'
+				#contract_acceptance_date: 
 
 			)
 		end		

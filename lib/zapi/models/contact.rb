@@ -21,7 +21,7 @@ module Zapi
 
 			setup_fields
 			#set the minimum required values
-			self.set_fields(
+			self.set_fields_query(
 
 				first_name: 'Donald',
 				last_name: 'Duck',
