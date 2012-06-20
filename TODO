@@ -5,10 +5,16 @@ TODO:
 
 	Overall:
 		[]more models
+			ASAP -> to test new subscription creation:
+				[]Product
+				[]Product Rate Plan
+				[]Product Rate Plan Charge
+				[]Product Rate Plan Charge Tier
 		[]figure out why savon setup breaks with rake and setting the log
 		[]test / make it easy to configure with prod
 		[]move custom fields to a file
 		[]make each field an attr accesor? / figure out non database ActiveModel backed models ( is it worth it bc zuora is doing the validation, i guess it makes sense to do it before sending and not wasting a soap call, but what if something in the WSDL changes, HOW OFTEN DOES THAT HAPPEN!? i think it makes sense to validate before sending )
+		[]singleton?
 DONE:
 	[x]account model
 	[x]contact model
@@ -27,3 +33,5 @@ DONE:
 	[x]make all the field name be ruby symbols 6/18
 	[x]session model
 	[x]update, make it only send new values, i.e ones that were set, not the ones that were queried 6/19
+	[x]payment_method model 6/19
+	[x]subscribe base 6/19
