@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'zapi'
-  s.version     = '0.0.3'
+  s.version     = '0.0.4'
   s.date        = '2012-06-18'
   s.summary     = "Zuora api connector!"
   s.description = "A simple zuora api connector"

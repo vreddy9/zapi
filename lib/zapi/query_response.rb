@@ -18,6 +18,8 @@ module Zapi
 			records.each do |record|
 				#gets the object which is after the @xsi:type
 				type = record[:"@xsi:type"].split(':').last
+				#TODO
+				#IS THERE A BETTER WAY OF DOING THIS
 				#make the correct model and set the fields
 				if type == 'Account'
 					obj = Zapi::Models::Account.new					

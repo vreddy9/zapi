@@ -69,7 +69,7 @@ module Zapi
     	   	   		return false
     	   		end
         end
-        #delete
+        #delete, the namespace is diff that the obj.to_xml so there is a custom method
         def delete(id, type)
             check_login
             response = @client.request :delete do

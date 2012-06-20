@@ -1,8 +1,12 @@
 TODO:
 	session.rb:
 		[]subscribe
+			[x]base is done
+			[]add rate plan data
+			[]make the call vary by the params hash sent in
 		[]amend
-
+	subsription.rb:
+		[]add the current date to the default fields and set the rest of the required fields
 	Overall:
 		[]more models
 			ASAP -> to test new subscription creation:
@@ -15,6 +19,9 @@ TODO:
 		[]move custom fields to a file
 		[]make each field an attr accesor? / figure out non database ActiveModel backed models ( is it worth it bc zuora is doing the validation, i guess it makes sense to do it before sending and not wasting a soap call, but what if something in the WSDL changes, HOW OFTEN DOES THAT HAPPEN!? i think it makes sense to validate before sending )
 		[]singleton?
+		[]bulk methods, ie create / delete / update 50 objects at once
+			[]bulk subscribe
+			[]bulk amend
 DONE:
 	[x]account model
 	[x]contact model
@@ -30,8 +37,8 @@ DONE:
 	[x]contact model and tests 6/18
 	[x]subscription model ( query and update ) 6/18
 	[x]take the username and password out of the config file and have it be set 6/18
-	[x]make all the field name be ruby symbols 6/18
-	[x]session model
+	[x]make all the field name be symbols instead of strings 6/18
+	[x]session model base
 	[x]update, make it only send new values, i.e ones that were set, not the ones that were queried 6/19
 	[x]payment_method model 6/19
 	[x]subscribe base 6/19
