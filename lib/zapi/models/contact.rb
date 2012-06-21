@@ -25,6 +25,7 @@ module Zapi
 
 				first_name: 'Donald',
 				last_name: 'Duck',
+				address1: 'test address',
 				work_email: 'test@test.com',
 				country: 'us',
 				state: 'ca'

@@ -46,3 +46,4 @@ DONE:
 	[x]update, make it only send new values, i.e ones that were set, not the ones that were queried 6/19
 	[x]payment_method model 6/19
 	[x]subscribe base 6/19
+	[x]subscribe with one product rate plan 6/20

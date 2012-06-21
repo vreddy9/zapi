@@ -31,8 +31,10 @@ module Zapi
 			#set the minimum required values
 			self.set_fields_query(
 
-				term_type: 'EVERGREEN'
-				#contract_acceptance_date: 
+				term_type: 'EVERGREEN',
+				contract_effective_date: DateTime.now.strftime("%Y-%m-%dT%H:%M:%S"),
+				service_activation_date: DateTime.now.strftime("%Y-%m-%dT%H:%M:%S"),
+				contract_acceptance_date: DateTime.now.strftime("%Y-%m-%dT%H:%M:%S")
 
 			)
 		end		

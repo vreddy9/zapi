@@ -85,62 +85,96 @@ module Zapi
                 return false
             end
         end
-        #TODO
-        #TAKE IN A HASH IF SOME PARAMS ARE NIL DO CERTAIN THINGS 
         #subscribe call
-        def subscribe_xml(account, contact, subscription, payment_method)
+        def subscribe(account, contact, subscription, payment_method, product_rate_plan_id)
+            xml = subscribe_to_xml(account, contact, subscription, payment_method, product_rate_plan_id)
+            check_login
+            response = @client.request :subscribe do
+                soap.header = { "SessionHeader" => { "session" => "#{self.session}" }}
+                soap.body = xml
+            end
+            if response.success?
+                return response.to_hash
+            else 
+                return false
+            end
+        end
+        #TODO
+        #TAKE IN A HASH IF SOME PARAMS ARE NIL DO CERTAIN THINGS
+        #product_rate_plan_id should have the related charge info passed in with, i.e. price and quantity 
+        #make subscribe xml
+        def subscribe_to_xml(account, contact, subscription, payment_method, product_rate_plan_id)
             builder = Builder::XmlMarkup.new
             #build the XML
-            xml = builder.tag!("ins0:subscribe") {
-                builder.tag!("ins0:subscribes") {
-                    #account can be just an id to subscribe to existing
-                    builder.tag!("ins0:Account", "xsi:type" => "ins1:Account") {
-                        #put all the account values in the call
-                        account.symbol_to_string(account.values).each do |k,v|
-                            builder.tag!("ins1:#{k}",v)
-                        end
-                    }
-                    #payment method
-                    builder.tag!("ins0:PaymentMethod", "xsi:type" => "ins1:PaymentMethod") {
-                        #put all the paymnet method values in the call
-                        payment_method.symbol_to_string(payment_method.values).each do |k,v|
-                            builder.tag!("ins1:#{k}",v)
-                        end
-                    }
-                    #bill to contact
-                    builder.tag!("ins0:BillToContact", "xsi:type" => "ins1:BillToContact") {
-                        #put all the contact values in the call
-                        contact.symbol_to_string(contact.values).each do |k,v|
-                            builder.tag!("ins1:#{k}",v)
-                        end
-                    }
-                    #preview options
-                    builder.tag!("ins0:PreviewOptions") {
-                        builder.tag!("ins1:EnablePreviewMode", false)
-                        builder.tag!("ins1:NumberOfPeriods", 1)
-                    }
-                    #TODO
-                    #ADD SUPPORT FOR SOLD TO
-                    #sold to contact, if only one BillTo defaults to SoldTo
+            xml = builder.tag!("ins0:subscribes") {
+                #account can be just an id to subscribe to existing
+                builder.tag!("ins0:Account", "xsi:type" => "ins1:Account") {
+                      #put all the account values in the call
+                      account.symbol_to_string(account.values).each do |k,v|
+                          builder.tag!("ins1:#{k}",v)
+                      end
+                }
+                #payment method
+                builder.tag!("ins0:PaymentMethod", "xsi:type" => "ins1:PaymentMethod") {
+                    #put all the paymnet method values in the call
+                    payment_method.symbol_to_string(payment_method.values).each do |k,v|
+                        builder.tag!("ins1:#{k}",v)
+                    end
+                }
+                #bill to contact
+                builder.tag!("ins0:BillToContact", "xsi:type" => "ins1:BillToContact") {
+                    #put all the contact values in the call
+                    contact.symbol_to_string(contact.values).each do |k,v|
+                        builder.tag!("ins1:#{k}",v)
+                    end
+                }
+                #preview options
+                builder.tag!("ins0:PreviewOptions") {
+                    builder.tag!("ins0:EnablePreviewMode", false)
+                    builder.tag!("ins0:NumberOfPeriods", 1)
+                }
+                #TODO
+                #ADD SUPPORT FOR SOLD TO
+                #sold to contact, if only one BillTo defaults to SoldTo
 
-                    #subscribe options                    
-                    builder.tag!("ins0:SubscribeOptions") {
-                        builder.tag!("ins1:GenerateInvoice", false)
-                        builder.tag!("ins1:ProcessPayments", false)
+                #subscribe options                    
+                builder.tag!("ins0:SubscribeOptions") {
+                    builder.tag!("ins0:GenerateInvoice", false)
+                    builder.tag!("ins0:ProcessPayments", false)
+                }
+                #subscription data
+                builder.tag!("ins0:SubscriptionData") {
+                    #subscription
+                    builder.tag!("ins0:Subscription", "xsi:type" => "ins1:Subscription"){
+                        #put in all the subscription values in the call
+                        subscription.symbol_to_string(subscription.values).each do |k,v|
+                            builder.tag!("ins1:#{k}",v)
+                        end
                     }
-                    #subscription data
-                    builder.tag!("ins0:SubscriptionData") {
-                        #subscription
-                        builder.tag!("ins0:Subscription", "xsi:type" => "ins1:Subscription"){
-                            #put in all the subscription values in the call
-                            subscription.symbol_to_string(subscription.values).each do |k,v|
-                                builder.tag!("ins1:#{k}",v)
-                            end
+                    #rate plan data
+                    #WILL NEED TO MAKE A NEW ONE OF THESE FOR EACH PRODUCT RATE PLAN ID
+                    builder.tag!("ins0:RatePlanData") {
+                        #TODO
+                        #ADD SUPPORT FOR MULTIPLE RATE PLANS / CHARGES AND QUANTITY
+                        #RIGHT NOW ITS ONLY ONE RATE PLAN
+                        builder.tag!('ins0:RatePlan', "xsi:type" => "ins1:RatePlan") {
+                            builder.tag!("ins1:ProductRatePlanId", product_rate_plan_id)
                         }
-                        #rate plan data
-                        builder.tag!("ins0:RatePlanData") {
-
-                        }
+                        #TODO
+                        #ADD SUPPORT FOR RATE PLAN CHARGE DATA
+                        #<ins0:RatePlanChargeData>
+                        #  <ins0:RatePlanCharge xsi:type="ns2:RatePlanCharge">
+                        #    <ins1:ProductRatePlanChargeId></ns2:ProductRatePlanChargeId>
+                        #    <ins1:Quantity></ns2:Quantity>
+                        #    </ins0:RatePlanCharge>
+                        #</ins0:RatePlanChargeData>
+                        #
+                        #builder.tag!('ins0:RatePlanChargeData') {
+                        #  builder.tag!('ins0:RatePlanCharge', "xsi:type" => "ins1:RatePlanCharge"){
+                        #
+                        #  }
+                        #}
+                        #
                     }
                 }
             }
@@ -151,6 +185,8 @@ module Zapi
       				  login
       			end
       	end
+        #TODO
+        #MOVE THIS TO ANOTHER FILE BUT MAKE IT WORK THE SAME
       	#create an account model
       	def account
       			Zapi::Models::Account.new

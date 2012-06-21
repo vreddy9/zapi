@@ -8,6 +8,21 @@ class ZapiTest < Test::Unit::TestCase
 		assert_not_equal(actually, nil)
 	end
 
+	def test_create_contact
+		#create an account
+		accid = $zapi.account.create
+		#query account with id
+		acc = $zapi.account.where(id: accid)
+		#create a contact for that account
+		con = $zapi.contact
+		con.set_fields(account_id: acc[0].values[:id])
+		actually = con.create
+		assert_not_equal(actually, false)
+
+		#delete the account
+		delres = acc[0].delete
+	end
+
 	def test_create_query_update_delete_contact
 		#create an account
 		accid = $zapi.account.create
