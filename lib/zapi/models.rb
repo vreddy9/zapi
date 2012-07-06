@@ -9,5 +9,22 @@ module Zapi
 		autoload :Subscription, 'zapi/models/subscription'
 		autoload :PaymentMethod, 'zapi/models/payment_method'
 		autoload :Product, 'zapi/models/product'
+		autoload :ProductRatePlan, 'zapi/models/product_rate_plan'
+		autoload :ProductRatePlanCharge, 'zapi/models/product_rate_plan_charge'
+		autoload :ProductRatePlanChargeTier, 'zapi/models/product_rate_plan_charge_tier'
+
+		#autoload :Amendment, 'zapi/models/amendment'
+		#autoload :CommunicationProfile, 'zapi/models/communication_profile'
+		#autoload :CreditBalanceAdjustment, 'zapi/models/credit_balance_adustment'
+		#autoload :InvoiceItemAdjustment, 'zapi/models/invoice_item_adjustment'
+		#autoload :InvoicePayment, 'zapi/models/invoice_payment'
+		#autoload :RatePlan, 'zapi/models/rate_plan'
+		#autoload :RatePlanCharge, 'zapi/models/rate_plan_charge'
+		#autoload :RatePlanChargeTier, 'zapi/models/rate_plan_charge_tier'
+		#autoload :Refund, 'zapi/models/refund'
+		#autoload :RefundInvoicePayment, 'zapi/models/refund_invoice_payment'
+		#autoload :TaxationItem, 'zapi/models/taxation_item'
+		#autoload :Usage, 'zapi/models/usage'
+		#autoload :zObject, 'zapi/models/zobject'
 	end
 end

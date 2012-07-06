@@ -21,6 +21,13 @@ class ZapiTest < Test::Unit::TestCase
 		assert_equal(actually, true)
 	end
 
+
+	def test_is_complex_type
+		base = Zapi::Models::Account.new
+		actually = base.is_complex_type('ProductRatePlanChargeTierData')
+		assert_equal(actually, true)
+	end
+
 	def test_to_xml
 		base = Zapi::Models::Account.new
 		actually = base.to_xml('create')
@@ -39,4 +46,15 @@ class ZapiTest < Test::Unit::TestCase
 		actually = base.values[:name]
 		assert_equal(actually, 'testing')
 	end
+
+	def test_build_complex_xml
+		tier = Zapi::Models::ProductRatePlanChargeTier.new
+		tierArray = Array.new
+		tierArray << tier
+		tierArray << tier
+		base  = Zapi::Models::ProductRatePlanCharge.new
+		actually = base.build_complex_xml('create', tierArray)
+		assert_equal(actually, "<ins0:zObjects xsi:type=\"ins1:ProductRatePlanCharge\"><ins1:Name>test rate plan charge</ins1:Name><ins1:BillCycleType>DefaultFromCustomer</ins1:BillCycleType><ins1:BillingPeriod>Month</ins1:BillingPeriod><ins1:ChargeModel>Flat Fee Pricing</ins1:ChargeModel><ins1:ChargeType>Recurring</ins1:ChargeType><ins1:TriggerEvent>ContractEffective</ins1:TriggerEvent><ins1:ProductRatePlanChargeTierData><ins0:ProductRatePlanChargeTier xsi:type=\"ins1:ProductRatePlanChargeTier\"><ins1:Active>true</ins1:Active><ins1:Currency>USD</ins1:Currency><ins1:Price>1</ins1:Price></ins0:ProductRatePlanChargeTier><ins0:ProductRatePlanChargeTier xsi:type=\"ins1:ProductRatePlanChargeTier\"><ins1:Active>true</ins1:Active><ins1:Currency>USD</ins1:Currency><ins1:Price>1</ins1:Price></ins0:ProductRatePlanChargeTier></ins1:ProductRatePlanChargeTierData></ins0:zObjects>")
+	end
+
 end

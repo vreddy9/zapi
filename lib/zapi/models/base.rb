@@ -1,13 +1,16 @@
 module Zapi
 	class Models::Base
 
-      	attr_accessor :fields, :name, :updated_fields, :queried_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols
+      	attr_accessor :fields, :name, :updated_fields, :queried_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols, :complex_types
+
     	#initialize the base
 		def initialize
 			self.symbols = Hash.new
 			self.values = Hash.new
 			self.updated_fields = Hash.new
 			self.queried_fields = Hash.new
+			self.complex_types = Array.new
+			self.complex_types << 'ProductRatePlanChargeTierData'
 		end
 		#setup the symbols with the fields from the model
 		def setup_fields
@@ -45,6 +48,11 @@ module Zapi
 		#call the sessions create method
 		def create
 			$session.create(to_xml('create'))
+		end
+
+		#call the sessions create method with complex xml
+		def create_complex(tiers)
+			$session.create(build_complex_xml('create', tiers))
 		end
 		#call the sessions update method
 		def update
@@ -115,13 +123,24 @@ module Zapi
 			end
 			false
 		end
+		#check to see if a field is a complex type
+		def is_complex_type(val)
+			self.complex_types.each do |f|
+				if(f == val)
+					return true
+				end
+			end
+			false
+
+		end
 		#build the xml for the object
 		def to_xml(command)
 			#the namespace
 			ns = 'ins1'
+			ns0 = 'ins0'
 			builder = Builder::XmlMarkup.new		
 			#build the xml
-			xml = builder.tag!("ins0:zObjects", "xsi:type" => "#{ns}:#{self.name}") {
+			xml = builder.tag!("#{ns0}:zObjects", "xsi:type" => "#{ns}:#{self.name}") {
 				#if its update set the id first
 				if (command == 'update')
 					if(self.values[:id] != nil)
@@ -132,6 +151,7 @@ module Zapi
 					temp = symbol_to_string(self.values)
 				end
 				#set the values if they are not read only
+				# build the tier data if necessary
 				temp.each do |k,v|
 					#check to see if its id or read only
 					if(k != ':id' && !is_read_only(k))
@@ -139,7 +159,48 @@ module Zapi
 					end
 				end				
 			}
-			xml
+		end
+		#build the xml differently if it has a complex type like a tier data
+		def build_complex_xml(command, tiers)
+			#the namespace
+			ns = 'ins1'
+			ns0 = 'ins0'
+			builder = Builder::XmlMarkup.new		
+			#build the xml
+			xml = builder.tag!("#{ns0}:zObjects", "xsi:type" => "#{ns}:#{self.name}") {
+				#if its update set the id first
+				if (command == 'update')
+					if(self.values[:id] != nil)
+						temp = symbol_to_string(self.updated_fields)
+						builder.tag!("#{ns}:Id", self.values[:id])
+					end
+				elsif (command == 'create')
+					temp = symbol_to_string(self.values)
+				end
+				is_complex = false;
+				#set the values if they are not read only
+				temp.each do |k,v|
+					#check if k is a complex type
+					is_complex = is_complex_type(k) 
+					#check to see if its id or read only
+					if(k != ':id' && !is_read_only(k) && !is_complex)
+						builder.tag!("#{ns}:#{k}",v)
+					end
+					#build the tier data if its complex
+					if(is_complex)
+						builder.tag!("#{ns}:#{tiers[0].name}Data") {
+							tiers.each do |t|
+								builder.tag!("#{ns0}:#{t.name}", "xsi:type" => "#{ns}:#{t.name}"){
+									temp = t.symbol_to_string(t.values)
+									temp.each do |k,v|
+										builder.tag!("#{ns}:#{k}", v)
+									end
+								}
+							end
+						}
+					end
+				end	
+			}
 		end
 	end
 end

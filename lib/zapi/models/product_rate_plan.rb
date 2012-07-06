@@ -1,15 +1,15 @@
 module Zapi
-	#represents a zuora product
-	class Models::Product < Models::Base
+	#represents a zuora product rate plan
+	class Models::ProductRatePlan < Models::Base
 		def initialize
 			super
 
 			#the name of the Zuora Object
-			self.name = "Product"
+			self.name = "ProductRatePlan"
 
 			#all the object fields
-			self.fields = %w(Id Category CreatedDate Description EffectiveStartDate EffectiveEndDate
-				Name SKU UpdatedById UpdatedDate) 
+			self.fields = %w(Id CreatedDate Description EffectiveStartDate EffectiveEndDate
+				Name ProductId UpdatedById UpdatedDate) 
  
 			#read only fields
 			self.read_only_fields = %w(CreatedById CreatedDate UpdatedById UpdatedDate)
@@ -28,7 +28,7 @@ module Zapi
 
 				effective_start_date: start_time.strftime("%Y-%m-%dT%H:%M:%S"),
 				effective_end_date: end_time.strftime("%Y-%m-%dT%H:%M:%S"),
-				name: 'testing product'
+				name: 'test rate plan'
 				
 			)
 		end		

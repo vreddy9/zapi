@@ -37,6 +37,12 @@ module Zapi
 					obj = Zapi::Models::PaymentMethod.new
 				elsif type == 'Product'
 					obj = Zapi::Models::Product.new
+				elsif type == 'ProductRatePlan'
+					obj = Zapi::Models::ProductRatePlan.new
+				elsif type == 'ProductRatePlanCharge'
+					obj = Zapi::Models::ProductRatePlanCharge.new
+				elsif type == 'ProductRatePlanChargeTier'
+					obj = Zapi::Models::ProductRatePlanChargeTier.new
 				end
 				obj.set_fields_query(record)
 				#add the obj to the array

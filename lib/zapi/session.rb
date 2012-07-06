@@ -23,9 +23,9 @@ module Zapi
     			  @client = Savon::Client.new do
     				    wsdl.document = WSDL
     			  end
-    		end
-    		#login to the Zuora API and set the session
-    		def login
+    	end
+    	#login to the Zuora API and set the session
+    	def login
     		    response = @client.request :login do
                 soap.body = { username: self.zconfig.user_name, password: self.zconfig.password}
     		    end
@@ -85,6 +85,7 @@ module Zapi
                 return false
             end
         end
+        
         #subscribe call
         def subscribe(account, contact, subscription, payment_method, product_rate_plan_id)
             xml = subscribe_to_xml(account, contact, subscription, payment_method, product_rate_plan_id)
@@ -219,5 +220,29 @@ module Zapi
         def product
             Zapi::Models::Product.new
         end
+        #create a product rate plan model
+        def product_rate_plan
+            Zapi::Models::ProductRatePlan.new
+        end
+        #create a product rate plan charge model
+        def product_rate_plan_charge
+            Zapi::Models::ProductRatePlanCharge.new
+        end
+        #create a product rate plan charge tier model
+        def product_rate_plan_charge_tier
+            Zapi::Models::ProductRatePlanChargeTier.new
+        end
+        #test method
+        def do_stuff
+            login
+            accs = account.all
+            accs.each do |acc| 
+                if(acc.values[:invoice_delivery_prefs_print] == false)
+                    acc.set_fields(invoice_delivery_prefs_email: true)
+                    acc.update 
+                end
+            end
+        end
+
 	  end	 
 end
