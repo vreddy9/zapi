@@ -232,6 +232,10 @@ module Zapi
         def product_rate_plan_charge_tier
             Zapi::Models::ProductRatePlanChargeTier.new
         end
+        #create a product rate plan charge tier model
+        def amendment
+            Zapi::Models::Amendment.new
+        end
         #test method
         def do_stuff
             login

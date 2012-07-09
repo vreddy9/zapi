@@ -1,9 +1,9 @@
 # Zuora Api Wrapper
 
 ## Install
-Make sure you install the latest version, many updates to are going to come out
+Make sure you install the latest version
 
-	gem install zapi
+	gem 'zapi', :git => 'git@github.com:mdemin914/zapi.git'
 
 ## Config
 Set credentials when making a new session, you can also specify the endpoint after the password ( you will need to change the endpoint in the wsdl and prod is untested as of 6/18/2012 )

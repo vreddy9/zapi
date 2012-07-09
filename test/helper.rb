@@ -4,7 +4,7 @@ require 'zapi'
 module ZapiTestHelper
 	$zapi = Zapi::Session.new(username: 'smogger914@yahoo.com', password: 'Fo!d3168')
 	$zapi.login
-	$prp_id
+
 	def subscribe_subscription_id
 
 	end
@@ -27,5 +27,20 @@ module ZapiTestHelper
 	def remove_product
 		qres = $zapi.product.where(id: $prod_id)
 		qres[0].delete
+	end
+
+	def make_subscription
+		create_product
+		subres = $zapi.subscribe($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id)
+		$account_id = subres[:subscribe_response][:result][:account_id]
+		subres[:subscribe_response][:result][:subscription_id]
+
+	end
+
+	def remove_account_with_subscription
+		#delete the account
+		qres = $zapi.account.where(id: $account_id)
+		qres[0].delete
+		remove_product
 	end
 end

@@ -12,8 +12,8 @@ module Zapi
 		autoload :ProductRatePlan, 'zapi/models/product_rate_plan'
 		autoload :ProductRatePlanCharge, 'zapi/models/product_rate_plan_charge'
 		autoload :ProductRatePlanChargeTier, 'zapi/models/product_rate_plan_charge_tier'
+		autoload :Amendment, 'zapi/models/amendment'
 
-		#autoload :Amendment, 'zapi/models/amendment'
 		#autoload :CommunicationProfile, 'zapi/models/communication_profile'
 		#autoload :CreditBalanceAdjustment, 'zapi/models/credit_balance_adustment'
 		#autoload :InvoiceItemAdjustment, 'zapi/models/invoice_item_adjustment'

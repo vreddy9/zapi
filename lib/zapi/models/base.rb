@@ -131,7 +131,6 @@ module Zapi
 				end
 			end
 			false
-
 		end
 		#build the xml for the object
 		def to_xml(command)

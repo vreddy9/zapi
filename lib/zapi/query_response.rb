@@ -43,6 +43,8 @@ module Zapi
 					obj = Zapi::Models::ProductRatePlanCharge.new
 				elsif type == 'ProductRatePlanChargeTier'
 					obj = Zapi::Models::ProductRatePlanChargeTier.new
+				elsif type == 'Amendment'
+					obj = Zapi::Models::Amendment.new
 				end
 				obj.set_fields_query(record)
 				#add the obj to the array
