@@ -28,4 +28,18 @@ class ZapiTest < Test::Unit::TestCase
 		res[0].delete
 		remove_product
 	end
+
+	def test_build_rate_plan_data
+		create_product
+		prp = $zapi.product_rate_plan.where(id: $prp_id)
+		rpcs = Array.new
+		rpcs << $zapi.product_rate_plan_charge
+		rpcs << $zapi.product_rate_plan_charge
+		actually = $zapi.build_rate_plan_data(prp, rpcs , nil, 'subscribe')
+		remove_product
+
+		assert_equal actually, 'some soap'
+
+		
+	end
 end

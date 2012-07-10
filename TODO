@@ -4,20 +4,16 @@ TODO:
 	session.rb:
 		[]subscribe
 			[x]base is done
-			[]add rate plan data
+			[x]add rate plan data
 			[]make the call vary by the params hash sent in
 		[]amend
+			[]make the call
 	subsription.rb:
-		[]add the current date to the default fields and add the rest of the default required fields
+		[x]add the current date to the default fields and add the rest of the default required fields
 	Overall:
-		a)[]
+		a)[] 
 		b)[]more models
-			ASAP -> to test new subscription creation:
-				[]Product
-				[]Product Rate Plan
-				[]Product Rate Plan Charge
-				[]Product Rate Plan Charge Tier
-		c)[]figure out why savon setup breaks with rake and setting the log
+ 		c)[]figure out why savon setup breaks with rake and setting the log
 		d)[]test / make it easy to configure with prod
 			i)[]the config endpoint does not do anything... make it dynamic
 		e)[]move custom fields to a file
@@ -26,6 +22,8 @@ TODO:
 		h)[]bulk methods, ie create / delete / update 50 objects at once
 			[]bulk subscribe
 			[]bulk amend
+			[]bulk update
+			[]bulk create
 DONE:
 	[x]account model
 	[x]contact model
@@ -47,3 +45,8 @@ DONE:
 	[x]payment_method model 6/19
 	[x]subscribe base 6/19
 	[x]subscribe with one product rate plan 6/20
+	[x]Product model
+	[x]Product Rate Plan model
+	[x]Product Rate Plan Charge model
+ 	[x]Product Rate Plan Charge Tier model
+ 	[x]tests for subsription -> subscribe helper method

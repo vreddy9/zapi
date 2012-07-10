@@ -57,4 +57,6 @@ class ZapiTest < Test::Unit::TestCase
 		assert_equal(actually, "<ins0:zObjects xsi:type=\"ins1:ProductRatePlanCharge\"><ins1:Name>test rate plan charge</ins1:Name><ins1:BillCycleType>DefaultFromCustomer</ins1:BillCycleType><ins1:BillingPeriod>Month</ins1:BillingPeriod><ins1:ChargeModel>Flat Fee Pricing</ins1:ChargeModel><ins1:ChargeType>Recurring</ins1:ChargeType><ins1:TriggerEvent>ContractEffective</ins1:TriggerEvent><ins1:ProductRatePlanChargeTierData><ins0:ProductRatePlanChargeTier xsi:type=\"ins1:ProductRatePlanChargeTier\"><ins1:Active>true</ins1:Active><ins1:Currency>USD</ins1:Currency><ins1:Price>1</ins1:Price></ins0:ProductRatePlanChargeTier><ins0:ProductRatePlanChargeTier xsi:type=\"ins1:ProductRatePlanChargeTier\"><ins1:Active>true</ins1:Active><ins1:Currency>USD</ins1:Currency><ins1:Price>1</ins1:Price></ins0:ProductRatePlanChargeTier></ins1:ProductRatePlanChargeTierData></ins0:zObjects>")
 	end
 
+
+
 end

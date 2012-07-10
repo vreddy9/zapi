@@ -44,17 +44,17 @@ module Zapi
       			qr.objects
       	end
       	#create an object in zuora
-    		def create(xml)
-    			  check_login
-       			    response = @client.request :create do
-           		      soap.header = { "SessionHeader" => { "session" => "#{self.session}" }}
-           		      soap.body = xml
+    	def create(xml)
+    	   check_login
+       		response = @client.request :create do
+           	    soap.header = { "SessionHeader" => { "session" => "#{self.session}" }}
+           	    soap.body = xml
           	end
           	if response.success?
-    		   		    return response.to_hash[:create_response][:result][:id]
-    	   		else 
-    	   			    return false
-    	   		end
+    		    return response.to_hash[:create_response][:result][:id]
+    	   	else 
+    	   	    return false
+    	   	end
         end
         #update an object in zuora
         def update(xml)
@@ -64,7 +64,7 @@ module Zapi
            		  soap.body = xml
           	end
          		if response.success?
-    		     		return response.to_hash
+    		     	return response.to_hash
     	   		else 
     	   	   		return false
     	   		end
@@ -99,6 +99,15 @@ module Zapi
             else 
                 return false
             end
+        end
+
+        def amend(account, subscription, product_rate_plan_id)
+
+        end
+
+        #build the xml for the amend call
+        def amend_to_xml(account, subscription, product_rate_plan_id)
+
         end
         #TODO
         #TAKE IN A HASH IF SOME PARAMS ARE NIL DO CERTAIN THINGS
@@ -180,6 +189,62 @@ module Zapi
                 }
             }
         end
+        # build the xml for the rate plan data to use in subscribe and amend calls
+        def build_rate_plan_data(rate_plans, rate_plan_charges, rate_plan_charge_tiers, type)
+            #the namespace
+            ns = 'ins1'
+            ns0 = 'ins0'
+            builder = Builder::XmlMarkup.new
+            xml = ''
+            #build the xml
+            rate_plans.each do |rp|
+                #build a rate plan data for each rate plan that is passed in
+                xml = builder.tag!("#{ns0}:RatePlanData") {
+                    builder.tag!("#{ns0}:RatePlan", "xsi:type" => "#{ns}:RatePlan") {
+                        if type == "subscribe"
+                            builder.tag!("#{ns}:ProductRatePlanId", rp.values[:id])
+                        elsif type == 'amendment'
+                               builder.tag!("#{ns}:SubscriptionRatePlanId", rp.values[:id])
+                        end
+                        #build the XML for the rate_plan_charges
+                        if rate_plan_charges != nil
+                            builder.tag!("#{ns0}:RatePlanChargeData") {
+                                rate_plan_charges.each do |rpc|
+                                    builder.tag!("#{ns0}:RatePlanCharge", "xsi:type" => "#{ns}:RatePlanCharge") {
+                                        if type == "subscribe"
+                                            builder.tag!("#{ns}:ProductRatePlanChargeId", rpc.values[:id])
+                                        elsif type == 'amendment'
+                                            builder.tag!("#{ns}:SubscriptionRatePlanChargeId", rpc.values[:id])
+                                        end
+                                        #put in all the rate plan charge values in the call if its not the id 
+                                        rpc.symbol_to_string(rpc.values).each do |k,v|
+                                            if(k != 'Id')
+                                                builder.tag!("#{ns}:#{k}",v)
+                                            end
+                                        end
+                                        #TODO
+                                        #need to do a little processing here to figure out which tiers go with what charge
+                                        #add tier data if necessary                                    
+                                        #if rate_plan_charge_tiers != nil
+                                        #    builder.tag!("#{ns0}:RatePlanChargeTierData") {
+                                        #        rate_plan_charge_tiers.each do |rpct|    
+                                        #        
+                                        #            builder.tag!("#{ns0}:RatePlanChargeTier", "xsi:type" => "#{ns}:RatePlanChargeTier") {
+                                        #            }
+                                        #        end
+                                        #    }
+                                        #end
+                                    }
+                                end
+                            }
+                        end    
+                    }
+
+                }
+            end
+            xml
+        end
+
       	#check to see if the session is valid
         def check_login
       			if self.session == nil
@@ -187,7 +252,7 @@ module Zapi
       			end
       	end
         #TODO
-        #MOVE THIS TO ANOTHER FILE BUT MAKE IT WORK THE SAME
+        #MOVE THIS TO ANOTHER FILE
       	#create an account model
       	def account
       			Zapi::Models::Account.new
@@ -236,17 +301,5 @@ module Zapi
         def amendment
             Zapi::Models::Amendment.new
         end
-        #test method
-        def do_stuff
-            login
-            accs = account.all
-            accs.each do |acc| 
-                if(acc.values[:invoice_delivery_prefs_print] == false)
-                    acc.set_fields(invoice_delivery_prefs_email: true)
-                    acc.update 
-                end
-            end
-        end
-
 	  end	 
 end

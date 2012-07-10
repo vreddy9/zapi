@@ -5,9 +5,6 @@ module ZapiTestHelper
 	$zapi = Zapi::Session.new(username: 'smogger914@yahoo.com', password: 'Fo!d3168')
 	$zapi.login
 
-	def subscribe_subscription_id
-
-	end
 
 	def create_product
 		$prod_id = $zapi.product.create

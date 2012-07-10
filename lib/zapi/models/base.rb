@@ -9,8 +9,7 @@ module Zapi
 			self.values = Hash.new
 			self.updated_fields = Hash.new
 			self.queried_fields = Hash.new
-			self.complex_types = Array.new
-			self.complex_types << 'ProductRatePlanChargeTierData'
+			self.complex_types = %w(ProductRatePlanChargeTierData RatePlanData)
 		end
 		#setup the symbols with the fields from the model
 		def setup_fields
@@ -159,7 +158,9 @@ module Zapi
 				end				
 			}
 		end
-		#build the xml differently if it has a complex type like a tier data
+
+		
+		#build the xml differently if it has tier data
 		def build_complex_xml(command, tiers)
 			#the namespace
 			ns = 'ins1'
@@ -185,7 +186,7 @@ module Zapi
 					if(k != ':id' && !is_read_only(k) && !is_complex)
 						builder.tag!("#{ns}:#{k}",v)
 					end
-					#build the tier data if its complex
+					#build the data if its complex
 					if(is_complex)
 						builder.tag!("#{ns}:#{tiers[0].name}Data") {
 							tiers.each do |t|
