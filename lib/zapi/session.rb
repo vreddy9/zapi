@@ -305,5 +305,9 @@ module Zapi
         def amendment
             Zapi::Models::Amendment.new
         end
+        #create an export model
+        def export
+            Zapi::Models::Export.new
+        end
 	  end	 
 end

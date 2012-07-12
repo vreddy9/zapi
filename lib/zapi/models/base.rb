@@ -59,7 +59,7 @@ module Zapi
 		end
 		#call the sessions delete method
 		def delete
-			$session.delete(self.values[:id], self.object_name)
+			$session.delete(self.id, self.object_name)
 		end
 		#set the fields on the object
 		def set_fields(map)

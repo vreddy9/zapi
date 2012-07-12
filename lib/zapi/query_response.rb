@@ -45,6 +45,8 @@ module Zapi
 					obj = Zapi::Models::ProductRatePlanChargeTier.new
 				elsif type == 'Amendment'
 					obj = Zapi::Models::Amendment.new
+				elsif type == 'Export'
+					obj = Zapi::Models::Export.new
 				end
 				obj.set_fields_query(record)
 				#add the obj to the array
