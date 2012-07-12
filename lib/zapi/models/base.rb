@@ -48,7 +48,6 @@ module Zapi
 		def create
 			$session.create(to_xml('create'))
 		end
-
 		#call the sessions create method with complex xml
 		def create_complex(tiers)
 			$session.create(build_complex_xml('create', tiers))
@@ -151,7 +150,7 @@ module Zapi
 				#set the values if they are not read only
 				# build the tier data if necessary
 				temp.each do |k,v|
-					#check to see if its id or read only
+					#check to see if its id or read only or complex
 					if(k != ':id' && !is_read_only(k) && !is_complex_type(k))
 						builder.tag!("#{ns}:#{k}",v)
 					end

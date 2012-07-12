@@ -24,13 +24,14 @@ Set credentials when making a new session, you can also specify the endpoint aft
 
 ###Get a specific value from a field that has been set or returned from a query
 
-	accountName = specificAccount.values[:name]
+	accountName = specificAccount.name
 
 ###Set fields and Update
 
 Separate by comma if setting more than one, use underscore case i.e 'ThisName' in the WSDL is ':this_name'.
 
-	specificAccount.set_fields( name: 'hi', currency: 'USD' )
+	specificAccount.name = 'hi'
+	specificAccount.name = currency: 'USD' 
 	update_res = specificAccount.update
 
 ###Make a new account
@@ -38,7 +39,7 @@ Separate by comma if setting more than one, use underscore case i.e 'ThisName' i
 Some values are set by default.
 
 	acc = sesh.account
-	acc.set_fields(name: "test account")
+	acc.name: "test account"
 	acc.create
 
 

@@ -64,7 +64,11 @@ module Zapi
            		  soap.body = xml
           	end
          		if response.success?
-    		     	return response.to_hash
+    		     	if response.to_hash[:update_response][:result][:id] != nil
+                        return response.to_hash[:update_response][:result][:id]
+                    else
+                        return response.to_hash[:update_response]
+                    end
     	   		else 
     	   	   		return false
     	   		end
