@@ -24,7 +24,7 @@ class ZapiTest < Test::Unit::TestCase
 		prods = $zapi.product.where(id: actually)
 		prods[0].set_fields(name: 'changed')
 		update_res = prods[0].update
-		assert_not_equal(update_res[:update_response][:result][:success], false)
+		assert_not_equal(update_res, false)
 		prods[0].delete
 
 	end

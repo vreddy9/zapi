@@ -13,7 +13,7 @@ class ZapiTest < Test::Unit::TestCase
 		sub = query_res[0]
 		sub.set_fields(notes: 'hello i am setting this')
 		update_res = sub.update
-		assert_equal(update_res[:update_response][:result][:success], true)
+		assert_not_equal(update_res, false)
 
 		#helper method to remove the account with the susbcription
 		remove_account_with_subscription

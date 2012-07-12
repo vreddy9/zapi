@@ -29,7 +29,7 @@ Set credentials when making a new session, you can also specify the endpoint aft
 
 ###Set fields and Update
 
-Use underscore case i.e 'ThisName' in the WSDL is ':this_name'.
+Use underscore case i.e 'ThisName' in the WSDL is 'this_name'.
 
 	specificAccount.name = 'hi'
 	specificAccount.name = currency: 'USD' 

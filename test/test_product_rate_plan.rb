@@ -29,7 +29,7 @@ class ZapiTest < Test::Unit::TestCase
 		prps = $zapi.product_rate_plan.where(id: prp_id)
 		prps[0].set_fields(description: "testing update")
 		update_res = prps[0].update
-		assert_not_equal(update_res[:update_response][:result][:success], false)
+		assert_not_equal(update_res , false)
 
 		prods = $zapi.product.where(id: prod_id)
 		prods[0].delete

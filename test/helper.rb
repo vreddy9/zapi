@@ -28,7 +28,7 @@ module ZapiTestHelper
 
 	def make_subscription
 		create_product
-		subres = $zapi.subscribe($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id)
+		subres = $zapi.subscribe($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id, nil, nil)
 		$account_id = subres[:subscribe_response][:result][:account_id]
 		subres[:subscribe_response][:result][:subscription_id]
 

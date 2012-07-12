@@ -13,7 +13,7 @@ class ZapiTest < Test::Unit::TestCase
 
 		create_product
 		acc = $zapi.account
-		subres = $zapi.subscribe(acc , $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id)
+		subres = $zapi.subscribe(acc , $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id, nil, nil)
 		
 
 		actually = $zapi.amend(acc, subres, $prp_id)

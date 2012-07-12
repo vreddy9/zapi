@@ -18,7 +18,7 @@ class ZapiTest < Test::Unit::TestCase
 		#update the account
 		acc[0].set_fields(name: "updated")
 		updateres = acc[0].update
-		assert_equal(updateres[:update_response][:result][:success], true)
+		assert_not_equal(updateres, false)
 		#delete the account
 		delres = acc[0].delete
 		assert_equal(delres[:delete_response][:result][:success], true)

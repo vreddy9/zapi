@@ -92,7 +92,7 @@ module Zapi
         
         #subscribe call
         def subscribe(account, contact, subscription, payment_method, product_rate_plan_id, subscribe_options, preview_options)
-            xml = subscribe_to_xml(account, contact, subscription, payment_method, product_rate_plan_id)
+            xml = subscribe_to_xml(account, contact, subscription, payment_method, product_rate_plan_id,subscribe_options, preview_options )
             check_login
             response = @client.request :subscribe do
                 soap.header = { "SessionHeader" => { "session" => "#{self.session}" }}
