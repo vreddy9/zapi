@@ -47,6 +47,8 @@ module Zapi
 					obj = Zapi::Models::Amendment.new
 				elsif type == 'Export'
 					obj = Zapi::Models::Export.new
+				elsif type == 'Usage'
+					obj = Zapi::Models::Usage.new
 				end
 				obj.set_fields_query(record)
 				#add the obj to the array

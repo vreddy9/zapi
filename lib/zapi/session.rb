@@ -309,5 +309,9 @@ module Zapi
         def export
             Zapi::Models::Export.new
         end
+        #create a usage model
+        def usage
+            Zapi::Models::Usage.new
+        end
 	  end	 
 end

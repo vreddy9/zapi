@@ -26,7 +26,7 @@ module Zapi
 		#autoload :Refund, 'zapi/models/refund'
 		#autoload :RefundInvoicePayment, 'zapi/models/refund_invoice_payment'
 		#autoload :TaxationItem, 'zapi/models/taxation_item'
-		#autoload :Usage, 'zapi/models/usage'
+		autoload :Usage, 'zapi/models/usage'
 		#autoload :zObject, 'zapi/models/zobject'
 	end
 end
