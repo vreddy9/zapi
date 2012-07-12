@@ -7,7 +7,7 @@ module Zapi
 		def initialize
 			super
 
-			self.name = "Subscription"
+			self.object_name = "Subscription"
 
 			#all the object fields
 			self.fields = %w( Id AccountId AutoRenew CancelledDate ContractAcceptanceDate

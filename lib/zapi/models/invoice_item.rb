@@ -4,7 +4,7 @@ module Zapi
 		def initialize
 			super
 			#the name of the Zuora Object
-			self.name = "InvoiceItem"
+			self.object_name = "InvoiceItem"
 
 			#all the object fields
 			self.fields = %w(AccountingCode ChargeAmount ChargeDate ChargeDescription ChargeName ChargeNumber CreatedById

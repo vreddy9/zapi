@@ -17,9 +17,8 @@ TODO:
 		d)[]test / make it easy to configure with prod
 			i)[]the config endpoint does not do anything... make it dynamic
 		e)[]move custom fields to a file
-		f)[]make each field an attr accesor? / figure out non database ActiveModel backed models ( is it worth it bc zuora is doing the validation, i guess it makes sense to do it before sending and not wasting a soap call, but what if something in the WSDL changes, HOW OFTEN DOES THAT HAPPEN!? i think it makes sense to validate before sending, maybe not zuora does it... this will only really help for mass amounts of traffic like bagillions of people hitting the site at once... would they be using this code at that point, they would probably write their own? )
-		g)[]singleton?
-		h)[]bulk methods, ie create / delete / update 50 objects at once
+		f)[x]add a getter and setter method for each field 
+		g)[]bulk methods, ie create / delete / update 50 objects at once
 			[]bulk subscribe
 			[]bulk amend
 			[]bulk update

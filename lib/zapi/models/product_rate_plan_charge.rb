@@ -7,7 +7,7 @@ module Zapi
 			super
 
 			#the name of the Zuora Object
-			self.name = "ProductRatePlanCharge"
+			self.object_name = "ProductRatePlanCharge"
 
 			#all the object fields
 			self.fields = %w(Id AccountingCode BillCycleDay BillCycleType BillingPeriod BillingPeriodAlignment

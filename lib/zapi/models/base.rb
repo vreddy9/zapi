@@ -1,7 +1,7 @@
 module Zapi
 	class Models::Base
-
-      	attr_accessor :fields, :name, :updated_fields, :queried_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols, :complex_types
+      	attr_accessor :fields, :object_name, :updated_fields, :queried_fields, :custom_fields, :non_query_fields , :read_only_fields, :values, :symbols, :complex_types
+		include Zapi::Models::Attributes
 
     	#initialize the base
 		def initialize
@@ -60,7 +60,7 @@ module Zapi
 		end
 		#call the sessions delete method
 		def delete
-			$session.delete(self.values[:id], self.name)
+			$session.delete(self.values[:id], self.object_name)
 		end
 		#set the fields on the object
 		def set_fields(map)
@@ -107,7 +107,7 @@ module Zapi
 			else
 				fields = self.fields
 			end
-			qstr = 'SELECT ' + fields.join(', ') + ' FROM ' + self.name
+			qstr = 'SELECT ' + fields.join(', ') + ' FROM ' + self.object_name
 		end
 		#underscore the fields in the way they are returned by savon
 		def underscore(string) 
@@ -138,7 +138,7 @@ module Zapi
 			ns0 = 'ins0'
 			builder = Builder::XmlMarkup.new		
 			#build the xml
-			xml = builder.tag!("#{ns0}:zObjects", "xsi:type" => "#{ns}:#{self.name}") {
+			xml = builder.tag!("#{ns0}:zObjects", "xsi:type" => "#{ns}:#{self.object_name}") {
 				#if its update set the id first
 				if (command == 'update')
 					if(self.values[:id] != nil)
@@ -152,7 +152,7 @@ module Zapi
 				# build the tier data if necessary
 				temp.each do |k,v|
 					#check to see if its id or read only
-					if(k != ':id' && !is_read_only(k))
+					if(k != ':id' && !is_read_only(k) && !is_complex_type(k))
 						builder.tag!("#{ns}:#{k}",v)
 					end
 				end				
@@ -167,7 +167,7 @@ module Zapi
 			ns0 = 'ins0'
 			builder = Builder::XmlMarkup.new		
 			#build the xml
-			xml = builder.tag!("#{ns0}:zObjects", "xsi:type" => "#{ns}:#{self.name}") {
+			xml = builder.tag!("#{ns0}:zObjects", "xsi:type" => "#{ns}:#{self.object_name}") {
 				#if its update set the id first
 				if (command == 'update')
 					if(self.values[:id] != nil)
@@ -188,9 +188,9 @@ module Zapi
 					end
 					#build the data if its complex
 					if(is_complex)
-						builder.tag!("#{ns}:#{tiers[0].name}Data") {
+						builder.tag!("#{ns}:#{tiers[0].object_name}Data") {
 							tiers.each do |t|
-								builder.tag!("#{ns0}:#{t.name}", "xsi:type" => "#{ns}:#{t.name}"){
+								builder.tag!("#{ns0}:#{t.object_name}", "xsi:type" => "#{ns}:#{t.object_name}"){
 									temp = t.symbol_to_string(t.values)
 									temp.each do |k,v|
 										builder.tag!("#{ns}:#{k}", v)
@@ -202,5 +202,6 @@ module Zapi
 				end	
 			}
 		end
+
 	end
 end

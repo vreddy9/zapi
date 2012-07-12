@@ -218,7 +218,7 @@ module Zapi
                                         end
                                         #put in all the rate plan charge values in the call if its not the id 
                                         rpc.symbol_to_string(rpc.values).each do |k,v|
-                                            if(k != 'Id')
+                                            if(k != 'Id' || !rpc.is_complex_type(k))
                                                 builder.tag!("#{ns}:#{k}",v)
                                             end
                                         end

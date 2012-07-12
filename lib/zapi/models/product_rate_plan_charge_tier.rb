@@ -5,7 +5,7 @@ module Zapi
 			super
 
 			#the name of the Zuora Object
-			self.name = "ProductRatePlanChargeTier"
+			self.object_name = "ProductRatePlanChargeTier"
 
 			#all the object fields
 			self.fields = %w(Id Active CreatedById CreatedDate Currency EndingUnit IsOveragePrice

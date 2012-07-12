@@ -3,7 +3,7 @@ module Zapi
 
 		def initialize
 			#the name of the Zuora Object
-			self.name = "Payment"
+			self.object_name = "Payment"
 
 			#all the object fields
 			self.fields = %w(AccountID AccountingCode Amount AppliedCreditBalanceAmount AppliedInvoiceAmount AuthTransactionId BankIdentificationNumber

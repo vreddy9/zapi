@@ -5,7 +5,7 @@ module Zapi
 			super
 
 			#the name of the Zuora Object
-			self.name = "Contact"
+			self.object_name = "Contact"
 
 			#all the object fields
 			self.fields = %w(Id AccountId Address1 Address2 City Country County CreatedById CreatedDate 
@@ -21,16 +21,20 @@ module Zapi
 
 			setup_fields
 			#set the minimum required values
-			self.set_fields_query(
+			self.first_name = 'Donald'
+			self.last_name = 'Duck'
+			self.address1 = 'test address'
+			self.work_email = 'test@test.com'
+			self.country = 'us'
+			self.state = 'ca'
 
-				first_name: 'Donald',
-				last_name: 'Duck',
-				address1: 'test address',
-				work_email: 'test@test.com',
-				country: 'us',
-				state: 'ca'
-
-			)
+			
 		end		
-	end
+		define_attributes do
+			wsdl :id, :account_id, :address1, :address2, :city, :country, :county, :created_by_id, :created_date, 
+				:description, :fax, :first_name, :home_phone, :last_name, :mobile_phone, :nick_name, :other_phone,
+				:other_phone_type, :personal_email, :postal_code, :state, :tax_region, :updated_by_id, :updated_date, 
+				:work_email, :work_phone
+		end
+	end		
 end

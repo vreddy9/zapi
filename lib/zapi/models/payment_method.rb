@@ -5,7 +5,7 @@ module Zapi
 			super
 
 			#the name of the Zuora Object
-			self.name = "PaymentMethod"
+			self.object_name = "PaymentMethod"
 
 			#all the object fields
 			self.fields = %w(Id AccountId AchAbaCode AchAccountName AchAccountNumber AchAccountNumberMask AchAccountType

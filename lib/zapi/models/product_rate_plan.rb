@@ -5,7 +5,7 @@ module Zapi
 			super
 
 			#the name of the Zuora Object
-			self.name = "ProductRatePlan"
+			self.object_name = "ProductRatePlan"
 
 			#all the object fields
 			self.fields = %w(Id CreatedDate Description EffectiveStartDate EffectiveEndDate

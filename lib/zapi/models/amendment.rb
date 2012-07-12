@@ -5,7 +5,7 @@ module Zapi
 
 		def initialize
 			super
-			self.name = "Amendment"
+			self.object_name = "Amendment"
 
 			#all the object fields
 			self.fields = %w(AutoRenew Code ContractEffectiveDate CreatedById CreatedDate 
@@ -26,15 +26,20 @@ module Zapi
 			setup_fields
 
 			#set the minimum required values
-			set_fields_query(
+			self.name = 'test amend'
+			self.contract_effective_date = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S")
+			self.service_activation_date = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S")
+			self.customer_acceptance_date = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S")
+			self.type = 'NewProduct'
 
-				name: 'test amend',
-				contract_effective_date: DateTime.now.strftime("%Y-%m-%dT%H:%M:%S"),
-				service_activation_date: DateTime.now.strftime("%Y-%m-%dT%H:%M:%S"),
-				contract_acceptance_date: DateTime.now.strftime("%Y-%m-%dT%H:%M:%S"),
-				type: 'NewProduct'
-
-			)
+			
 		end		
+		#define_attributes
+		define_attributes do
+			wsdl :auto_renew, :code, :contract_effective_date, :created_by_id, :created_date, 
+				:customer_acceptance_date, :description, :destination_account_id, :effective_date, 
+				:initial_term, :name, :rate_plan_data, :renewal_term, :service_activation_date, :status,
+				:subscription_id, :term_start_date, :term_type, :type, :updated_by_id, :updated_date
+		end	
 	end
 end
