@@ -91,7 +91,7 @@ module Zapi
         end
         
         #subscribe call
-        def subscribe(account, contact, subscription, payment_method, product_rate_plan_id)
+        def subscribe(account, contact, subscription, payment_method, product_rate_plan_id, subscribe_options, preview_options)
             xml = subscribe_to_xml(account, contact, subscription, payment_method, product_rate_plan_id)
             check_login
             response = @client.request :subscribe do
@@ -117,7 +117,7 @@ module Zapi
         #TAKE IN A HASH IF SOME PARAMS ARE NIL DO CERTAIN THINGS
         #product_rate_plan_id should have the related charge info passed in with, i.e. price and quantity 
         #make subscribe xml
-        def subscribe_to_xml(account, contact, subscription, payment_method, product_rate_plan_id)
+        def subscribe_to_xml(account, contact, subscription, payment_method, product_rate_plan_id, subscribe_options, preview_options)
             builder = Builder::XmlMarkup.new
             #build the XML
             xml = builder.tag!("ins0:subscribes") {

@@ -13,7 +13,7 @@ class ZapiTest < Test::Unit::TestCase
 
 	def test_subscribe_to_xml
 		create_product
-		actually = $zapi.subscribe_to_xml($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id)
+		actually = $zapi.subscribe_to_xml($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id, nil, nil)
 
 		assert_not_equal actually, nil
 		remove_product
@@ -21,7 +21,7 @@ class ZapiTest < Test::Unit::TestCase
 
 	def test_subscribe
 		create_product
-		actually = $zapi.subscribe($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id)
+		actually = $zapi.subscribe($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id, nil, nil)
 		assert_equal actually[:subscribe_response][:result][:success], true
 		#delete the account
 		res = $zapi.account.where(id: actually[:subscribe_response][:result][:account_id])
