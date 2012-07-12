@@ -24,13 +24,15 @@ module Zapi
 			start_time = Time.new(2000, 1, 1)
 			end_time = Time.new(2050, 1, 1)
 
-			self.set_fields_query(
-
-				effective_start_date: start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-				effective_end_date: end_time.strftime("%Y-%m-%dT%H:%M:%S"),
-				name: 'test rate plan'
+			self.effective_start_date = start_time.strftime("%Y-%m-%dT%H:%M:%S")
+			self.effective_end_date = end_time.strftime("%Y-%m-%dT%H:%M:%S")
+			self.name = 'test rate plan'
 				
-			)
+			
+		end
+		define_attributes do
+			wsdl :id, :created_date, :description, :effective_start_date, :effective_end_date, :name, :productid,
+			:updated_by_id, :updated_date
 		end		
 	end
 end

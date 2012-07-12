@@ -28,17 +28,22 @@ module Zapi
 
 			setup_fields
 			#set the minimum required values
+			self.name = 'test rate plan charge'
+			self.bill_cycle_type = 'DefaultFromCustomer'
+			self.billing_period = 'Month'
+			self.charge_model = 'Flat Fee Pricing'
+			self.charge_type = 'Recurring'
+			self.trigger_event = 'ContractEffective'
+			self.product_rate_plan_charge_tier_data = 'this should be set'
 			
-			self.set_fields_query(
-
-				name: 'test rate plan charge',
-				bill_cycle_type: 'DefaultFromCustomer',
-				billing_period: 'Month',
-				charge_model: 'Flat Fee Pricing',
-				charge_type: 'Recurring',
-				trigger_event: 'ContractEffective',
-				product_rate_plan_charge_tier_data: 'this should be set'
-			)
-		end		
+		end
+		define_attributes do 		
+			wsdl :id, :accounting_code, :bill_cycle_day, :bill_cycle_type, :billing_period, :billing_period_alignment,
+			:charge_model, :charge_type, :created_by_id, :created_date, :default_quantity, :description, :included_units,
+			:max_quantity, :min_quantity, :name, :number_of_period, :overage_calculation_option, :overage_unused_units_credit_option,
+			:price_increase_option, :price_increase_percentage, :product_rate_plan_charge_tier_data, :product_rate_plan_id,
+			:rev_rec_code, :rev_rec_trigger_condition, :smoothing_model, :specific_billing_period, :taxable, :tax_code, :trigger_event,
+			:uom, :updated_by_id, :updated_date
+		end
 	end
 end

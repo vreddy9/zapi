@@ -24,5 +24,13 @@ module Zapi
 
 			setup_fields
 		end
+
+		define_attributes do
+			wsdl :accounting_code, :charge_amount, :charge_date, :charge_description, :charge_name, :charge_number, :created_by_id,
+				:created_date, :invoice_id, :processing_type, :product_description, :product_id, :product_name, :quantity,
+				:rate_plan_charge_id, :rev_rec_code, :rev_rec_start_date, :rev_rec_trigger_condition, :service_end_date,
+				:service_start_date, :sku, :subscription_id, :subscription_number, :tax_amount, :tax_code, :tax_exempt_amount,
+				:unit_price, :uom, :updated_by_id, :updated_date
+		end
 	end
 end

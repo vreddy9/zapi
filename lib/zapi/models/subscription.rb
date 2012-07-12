@@ -1,5 +1,5 @@
 module Zapi
-	#represents a zuora account
+	#represents a zuora subscription
 	class Models::Subscription < Models::Base
 		#the name of the Zuora Object
 
@@ -29,14 +29,19 @@ module Zapi
 
 			setup_fields
 			#set the minimum required values
-			self.set_fields_query(
 
-				term_type: 'EVERGREEN',
-				contract_effective_date: DateTime.now.strftime("%Y-%m-%dT%H:%M:%S"),
-				service_activation_date: DateTime.now.strftime("%Y-%m-%dT%H:%M:%S"),
-				contract_acceptance_date: DateTime.now.strftime("%Y-%m-%dT%H:%M:%S")
+			self.term_type = 'EVERGREEN'
+			self.contract_effective_date = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S")
+			self.service_activation_date = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S")
+			self.contract_acceptance_date = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S")
 
-			)
+			
+		end
+		define_attributes do
+			wsdl :id, :account_id, :auto_renew, :cancelled_date, :contract_acceptance_date, :contract_effective_date, :created_by_id, :created_date,
+			:creator_account_id, :creator_invoice_owner_id, :initial_term, :invoice_owner_id, :is_invoice_separate, :name, :notes, :original_created_date,
+			:original_id, :previous_subscription_id, :renewal_term, :service_activation_date, :status, :subscription_end_date, :subscription_start_date,
+			:term_end_date, :term_start_date, :term_type, :updated_by_id, :updated_date, :version
 		end		
 	end
 end
