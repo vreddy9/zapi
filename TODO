@@ -11,7 +11,7 @@ TODO:
 	subsription.rb:
 		[x]add the current date to the default fields and add the rest of the default required fields
 	Overall:
-		a)[] 
+		a)[]rate plan data creation 
 		b)[]more models
  		c)[]figure out why savon setup breaks with rake and setting the log
 		d)[]test / make it easy to configure with prod

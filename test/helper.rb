@@ -9,14 +9,14 @@ module ZapiTestHelper
 	def create_product
 		$prod_id = $zapi.product.create
 		prp = $zapi.product_rate_plan
-		prp.set_fields(product_id: $prod_id)
+		prp.product_id = $prod_id
 		$prp_id = prp.create
 
 		prpc = $zapi.product_rate_plan_charge
-		prpc.set_fields(product_rate_plan_id: $prp_id)
+		prpc.product_rate_plan_id = $prp_id
 		tiers = Array.new
 		tiers << $zapi.product_rate_plan_charge_tier
-		charge = prpc.create_complex(tiers)
+		$charge_id = prpc.create_complex(tiers)
 		
 		$prp_id
 	end

@@ -91,8 +91,8 @@ module Zapi
         end
         
         #subscribe call
-        def subscribe(account, contact, subscription, payment_method, product_rate_plan_id, subscribe_options, preview_options)
-            xml = subscribe_to_xml(account, contact, subscription, payment_method, product_rate_plan_id,subscribe_options, preview_options )
+        def subscribe(account, contact, subscription, payment_method, subscribe_options, preview_options, rate_plans, rate_plan_charges, rate_plan_charge_tiers, type)
+            xml = subscribe_with_rateplan_data_to_xml(account, contact, subscription, payment_method, subscribe_options, preview_options, rate_plans, rate_plan_charges, rate_plan_charge_tiers, type)
             check_login
             response = @client.request :subscribe do
                 soap.header = { "SessionHeader" => { "session" => "#{self.session}" }}
@@ -193,6 +193,113 @@ module Zapi
                 }
             }
         end
+        #TODO
+        #TAKE IN A HASH IF SOME PARAMS ARE NIL DO CERTAIN THINGS
+        #product_rate_plan_id should have the related charge info passed in with, i.e. price and quantity 
+        #make subscribe xml
+        def subscribe_with_rateplan_data_to_xml(account, contact, subscription, payment_method, subscribe_options, preview_options, rate_plans, rate_plan_charges, rate_plan_charge_tiers, type)
+             #the namespace
+            ns = 'ins1'
+            ns0 = 'ins0'
+            builder = Builder::XmlMarkup.new
+            #build the XML
+            xml = builder.tag!("ins0:subscribes") {
+                #account can be just an id to subscribe to existing
+                builder.tag!("ins0:Account", "xsi:type" => "ins1:Account") {
+                      #put all the account values in the call
+                      account.symbol_to_string(account.values).each do |k,v|
+                          builder.tag!("ins1:#{k}",v)
+                      end
+                }
+                #payment method
+                builder.tag!("ins0:PaymentMethod", "xsi:type" => "ins1:PaymentMethod") {
+                    #put all the paymnet method values in the call
+                    payment_method.symbol_to_string(payment_method.values).each do |k,v|
+                        builder.tag!("ins1:#{k}",v)
+                    end
+                }
+                #bill to contact
+                builder.tag!("ins0:BillToContact", "xsi:type" => "ins1:BillToContact") {
+                    #put all the contact values in the call
+                    contact.symbol_to_string(contact.values).each do |k,v|
+                        builder.tag!("ins1:#{k}",v)
+                    end
+                }
+                #preview options
+                builder.tag!("ins0:PreviewOptions") {
+                    builder.tag!("ins0:EnablePreviewMode", false)
+                    builder.tag!("ins0:NumberOfPeriods", 1)
+                }
+                #TODO
+                #ADD SUPPORT FOR SOLD TO
+                #sold to contact, if only one BillTo defaults to SoldTo
+
+                #subscribe options                    
+                builder.tag!("ins0:SubscribeOptions") {
+                    builder.tag!("ins0:GenerateInvoice", false)
+                    builder.tag!("ins0:ProcessPayments", false)
+                }
+                #subscription data
+                builder.tag!("ins0:SubscriptionData") {
+                    #subscription
+                    builder.tag!("ins0:Subscription", "xsi:type" => "ins1:Subscription"){
+                        #put in all the subscription values in the call
+                        subscription.symbol_to_string(subscription.values).each do |k,v|
+                            builder.tag!("ins1:#{k}",v)
+                        end
+                    }
+                    #rate plan data
+                    #WILL NEED TO MAKE A NEW ONE OF THESE FOR EACH PRODUCT RATE PLAN ID
+                    rate_plans.each do |rp|
+                    #build a rate plan data for each rate plan that is passed in
+                    builder.tag!("#{ns0}:RatePlanData") {
+                        builder.tag!("#{ns0}:RatePlan", "xsi:type" => "#{ns}:RatePlan") {
+                            if type == "subscribe"
+                                builder.tag!("#{ns}:ProductRatePlanId", rp.values[:id])
+                            elsif type == 'amendment'
+                                   builder.tag!("#{ns}:SubscriptionRatePlanId", rp.values[:id])
+                            end
+                            #build the XML for the rate_plan_charges
+                            if rate_plan_charges != nil
+                                builder.tag!("#{ns0}:RatePlanChargeData") {
+                                    rate_plan_charges.each do |rpc|
+                                        builder.tag!("#{ns0}:RatePlanCharge", "xsi:type" => "#{ns}:RatePlanCharge") {
+                                            if type == "subscribe"
+                                                builder.tag!("#{ns}:ProductRatePlanChargeId", rpc.values[:id])
+                                            elsif type == 'amendment'
+                                                builder.tag!("#{ns}:SubscriptionRatePlanChargeId", rpc.values[:id])
+                                            end
+                                            #put in all the rate plan charge values in the call if its not the id 
+                                            rpc.symbol_to_string(rpc.values).each do |k,v|
+                                                #TODO
+                                                #FIX THIS
+                                                if(k != 'Id' && !rpc.is_complex_type(k) && !rpc.is_read_only(k) && k != 'ProductRatePlanId')
+                                                    builder.tag!("#{ns}:#{k}",v)
+                                                end
+                                            end
+                                            #TODO
+                                            #need to do a little processing here to figure out which tiers go with what charge
+                                            #add tier data if necessary                                    
+                                            #if rate_plan_charge_tiers != nil
+                                            #    builder.tag!("#{ns0}:RatePlanChargeTierData") {
+                                            #        rate_plan_charge_tiers.each do |rpct|    
+                                            #        
+                                            #            builder.tag!("#{ns0}:RatePlanChargeTier", "xsi:type" => "#{ns}:RatePlanChargeTier") {
+                                            #            }
+                                            #        end
+                                            #    }
+                                            #end
+                                        }
+                                    end
+                                }
+                            end    
+                        }
+
+                    }
+                end
+                }
+            }
+        end
         # build the xml for the rate plan data to use in subscribe and amend calls
         def build_rate_plan_data(rate_plans, rate_plan_charges, rate_plan_charge_tiers, type)
             #the namespace
@@ -222,7 +329,9 @@ module Zapi
                                         end
                                         #put in all the rate plan charge values in the call if its not the id 
                                         rpc.symbol_to_string(rpc.values).each do |k,v|
-                                            if(k != 'Id' || !rpc.is_complex_type(k))
+                                            #TODO
+                                            #FIX THIS
+                                            if(k != 'Id' && !rpc.is_complex_type(k) && !rpc.is_read_only(k) && k != 'ProductRatePlanId')
                                                 builder.tag!("#{ns}:#{k}",v)
                                             end
                                         end

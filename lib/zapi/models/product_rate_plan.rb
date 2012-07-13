@@ -31,7 +31,7 @@ module Zapi
 			
 		end
 		define_attributes do
-			wsdl :id, :created_date, :description, :effective_start_date, :effective_end_date, :name, :productid,
+			wsdl :id, :created_date, :description, :effective_start_date, :effective_end_date, :name, :product_id,
 			:updated_by_id, :updated_date
 		end		
 	end

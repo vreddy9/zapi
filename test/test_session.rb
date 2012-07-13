@@ -21,11 +21,15 @@ class ZapiTest < Test::Unit::TestCase
 
 	def test_subscribe
 		create_product
-		actually = $zapi.subscribe($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id, nil, nil)
+		prp = $zapi.product_rate_plan.where(id: $prp_id)
+		rpcs = Array.new
+		qres = $zapi.product_rate_plan_charge.where(id: $charge_id)
+		rpcs << qres[0]
+		actually = $zapi.subscribe($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method,nil, nil, prp, rpcs , nil, 'subscribe')
 		assert_equal actually[:subscribe_response][:result][:success], true
 		#delete the account
 		res = $zapi.account.where(id: actually[:subscribe_response][:result][:account_id])
-		res[0].delete
+		#res[0].delete
 		remove_product
 	end
 
@@ -33,14 +37,25 @@ class ZapiTest < Test::Unit::TestCase
 		create_product
 		prp = $zapi.product_rate_plan.where(id: $prp_id)
 		rpcs = Array.new
-		rpcs << $zapi.product_rate_plan_charge
-		rpcs << $zapi.product_rate_plan_charge
+		qres = $zapi.product_rate_plan_charge.where(id: $charge_id)
+		rpcs << qres[0]
 		actually = $zapi.build_rate_plan_data(prp, rpcs , nil, 'subscribe')
 		remove_product
 
-		assert_equal(actually, "<ins0:RatePlanData><ins0:RatePlan xsi:type=\"ins1:RatePlan\"><ins1:ProductRatePlanId>2c92c0f8385d9f350138730c87055b92</ins1:ProductRatePlanId><ins0:RatePlanChargeData><ins0:RatePlanCharge xsi:type=\"ins1:RatePlanCharge\"><ins1:ProductRatePlanChargeId></ins1:ProductRatePlanChargeId><ins1:Name>test rate plan charge</ins1:Name><ins1:BillCycleType>DefaultFromCustomer</ins1:BillCycleType><ins1:BillingPeriod>Month</ins1:BillingPeriod><ins1:ChargeModel>Flat Fee Pricing</ins1:ChargeModel><ins1:ChargeType>Recurring</ins1:ChargeType><ins1:TriggerEvent>ContractEffective</ins1:TriggerEvent></ins0:RatePlanCharge><ins0:RatePlanCharge xsi:type=\"ins1:RatePlanCharge\"><ins1:ProductRatePlanChargeId></ins1:ProductRatePlanChargeId><ins1:Name>test rate plan charge</ins1:Name><ins1:BillCycleType>DefaultFromCustomer</ins1:BillCycleType><ins1:BillingPeriod>Month</ins1:BillingPeriod><ins1:ChargeModel>Flat Fee Pricing</ins1:ChargeModel><ins1:ChargeType>Recurring</ins1:ChargeType><ins1:TriggerEvent>ContractEffective</ins1:TriggerEvent></ins0:RatePlanCharge></ins0:RatePlanChargeData></ins0:RatePlan></ins0:RatePlanData>")
+		assert_not_equal(actually, nil)	
+	end
 
-		
+	def test_subscribe_with_rateplan_data_to_xml
+		create_product
+		prp = $zapi.product_rate_plan.where(id: $prp_id)
+		rpcs = Array.new
+		qres = $zapi.product_rate_plan_charge.where(id: $charge_id)
+		rpcs << qres[0]
+		#rate_plan_data = $zapi.build_rate_plan_data(prp, rpcs , nil, 'subscribe')
+		remove_product
+
+		actually = $zapi.subscribe_with_rateplan_data_to_xml($zapi.account, $zapi.contact, $zapi.subscription, $zapi.payment_method,nil, nil, prp, rpcs , nil, 'subscribe')
+		assert_not_equal actually, nil
 	end
 end
 

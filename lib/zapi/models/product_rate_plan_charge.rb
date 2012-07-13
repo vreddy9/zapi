@@ -18,7 +18,7 @@ module Zapi
 				UseDiscountSpecificAccountingCode) 
  
 			#read only fields
-			self.read_only_fields = %w(CreatedById CreatedDate UpdatedById UpdatedDate )
+			self.read_only_fields = %w(CreatedById CreatedDate UpdatedById UpdatedDate)
 		
 
 			self.non_query_fields = %w(ProductRatePlanChargeTierData)
