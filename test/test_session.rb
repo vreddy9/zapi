@@ -29,7 +29,7 @@ class ZapiTest < Test::Unit::TestCase
 		assert_equal actually[:subscribe_response][:result][:success], true
 		#delete the account
 		res = $zapi.account.where(id: actually[:subscribe_response][:result][:account_id])
-		#res[0].delete
+		res[0].delete
 		remove_product
 	end
 

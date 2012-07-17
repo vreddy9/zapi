@@ -13,8 +13,8 @@ module Zapi
 		    end
     		#setup savon
     		def savon_setup
-    			  HTTPI.log = false
-    			  Savon.configure do |config|
+    			HTTPI.log = false
+    			Savon.configure do |config|
                 #TODO 
                 #FIGURE OUT WHY THIS BREAKS WITH RAKE
     	  		    #disable logging
@@ -238,6 +238,9 @@ module Zapi
                 builder.tag!("ins0:SubscribeOptions") {
                     builder.tag!("ins0:GenerateInvoice", false)
                     builder.tag!("ins0:ProcessPayments", false)
+                    builder.tag!("ins0:SubscribeInvoiceProcessingOptions"){
+                        builder.tag!("ins0:InvoiceProcessingScope", "subscription")
+                    }
                 }
                 #subscription data
                 builder.tag!("ins0:SubscriptionData") {

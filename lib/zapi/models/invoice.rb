@@ -11,7 +11,7 @@ module Zapi
 			self.fields = %w(Id AccountId AdjustmentAmount Amount AmountWithoutTax Balance Comments	
 				CreatedById CreatedDate DueDate IncludesOneTime IncludesRecurring IncludesUsage
 				InvoiceNumber LastEmailSentDate PaymentAmount PostedBy PostedDate RefundAmount RefundAmount
-				RefundAmount Status TargetDate TaxAmount TaxExemptAmount TransferredToAccounting UpdatedById UpdatedDate)
+				RefundAmount Status TargetDate TaxAmount TaxExemptAmount TransferredToAccounting UpdatedById UpdatedDate )
 			
 			#read only fields
 			self.read_only_fields = %w(Id AdjustmentAmount Amount AmountWithoutTax Balance 

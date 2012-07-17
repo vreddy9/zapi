@@ -12,8 +12,12 @@ class ZapiTest < Test::Unit::TestCase
 	def test_create_amendment
 
 		create_product
+		prp = $zapi.product_rate_plan.where(id: $prp_id)
+		rpcs = Array.new
+		qres = $zapi.product_rate_plan_charge.where(id: $charge_id)
+		rpcs << qres[0]
 		acc = $zapi.account
-		subres = $zapi.subscribe(acc , $zapi.contact, $zapi.subscription, $zapi.payment_method, $prp_id, nil, nil)
+		subres = $zapi.subscribe(acc, $zapi.contact, $zapi.subscription, $zapi.payment_method,nil, nil, prp, rpcs , nil, 'subscribe')
 		
 
 		actually = $zapi.amend(acc, subres, $prp_id)
